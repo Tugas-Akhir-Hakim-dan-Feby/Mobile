@@ -1,16 +1,9 @@
-# api_mobile
+# MOBILE API
 
-A new Flutter project.
+step by step
 
-## Getting Started
+#1 git clone https://github.com/Tugas-Akhir-Hakim-dan-Feby/Mobile.git
 
-This project is a starting point for a Flutter application.
+#2 Flutter Pub add get
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# run bisa pada main.dart atau bisa menggunakan terminal dengan mengetik "flutter run" / "flutter run --no-sound-null-safety"
