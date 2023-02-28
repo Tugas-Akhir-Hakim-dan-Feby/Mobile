@@ -18,10 +18,10 @@ class _NavigasiState extends State<Navigasi> {
   int? index = 0;
   final screens = [
     HomePage(),
-    BlogPage(),
-    MemberPage(),
-    ChatPage(),
-    ProfilePage(),
+    const BlogPage(),
+    const MemberPage(),
+    const ChatPage(),
+    const ProfilePage(),
 
   ];
   @override
@@ -41,7 +41,7 @@ class _NavigasiState extends State<Navigasi> {
           child: CurvedNavigationBar(
             key: navigationKey,
             color: Colors.brown.shade200,
-            buttonBackgroundColor: Color.fromARGB(255, 239, 48, 48),
+            buttonBackgroundColor: const Color.fromARGB(255, 239, 48, 48),
             backgroundColor: Colors.transparent,
             // backgroundColor: Color.fromARGB(255, 255, 255, 255),
             items: items,

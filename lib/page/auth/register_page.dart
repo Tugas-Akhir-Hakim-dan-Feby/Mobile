@@ -1,16 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/connection/app_config.dart';
-import 'package:api_mobile/model/login_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -26,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     
+    // ignore: no_leading_underscores_for_local_identifiers
     Future _doRegister() async {
     String name = txtUsername.text;
     String email = txtEmail.text;
@@ -51,6 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // print(response.statusCode);
     // print(response.body);
     if (response.statusCode == 201) {
+      // ignore: use_build_context_synchronously
       Alert(
           context: context,
           title: "Cek Email Anda",
@@ -68,13 +67,14 @@ class _RegisterPageState extends State<RegisterPage> {
           ]).show();
     } 
     else if (response.statusCode == 400) {
+      // ignore: use_build_context_synchronously
       Alert(
           context: context,
           title: "Email Sudah Terdaftar",
           type: AlertType.warning,
           buttons: [
             DialogButton(
-              child: Text(
+              child: const Text(
                     "Ganti Email",
                     style: TextStyle(color: Colors.white, fontSize: 20),
               ),
@@ -85,6 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
             )
           ]).show();
     } else {
+      // ignore: use_build_context_synchronously
       Alert(
               context: context,
               title: "Data Gagal disimpan",
@@ -93,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
     final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    // final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -103,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 height: deviceHeight * 0.32,
-                child: FittedBox(
+                child: const FittedBox(
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
                       'assets/images/logo_api.jpg'
@@ -117,12 +118,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Container(
                   height: deviceHeight * 0.609,
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: LayoutBuilder(builder: (ctx,constraints){
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(' Asosiasi Pengelasan',
+                        const Text(' Asosiasi Pengelasan',
                         textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 30, 
@@ -140,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 controller: txtUsername,
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                  fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
                               hintText: "Masukan Nama Anda",
                               labelText: "Nama",
                               icon: const Icon(Icons.people),
@@ -150,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                               ),
                               ),
                             ),
@@ -177,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               },
                               decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                  fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
                               hintText: "Masukan alamat email anda",
                               labelText: "Email",
                               icon: const Icon(Icons.email),
@@ -187,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                               ),
                             ),
                           ),
@@ -195,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            TextButton(onPressed: (){}, child: Text(
+                            TextButton(onPressed: (){}, child: const Text(
                               'Lupa Kata Sandi',
                               style: TextStyle(
                                 color: Color(0xfff80849),
@@ -210,24 +211,25 @@ class _RegisterPageState extends State<RegisterPage> {
                           margin: EdgeInsets.only(
                             top: constraints.maxHeight *0.05,
                           ),
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: ElevatedButton(
                             onPressed: (){
                               if (_formKey.currentState!.validate()) {
                                 _doRegister();
                               }
                             },
-                            child: Text(
+                            style:ElevatedButton.styleFrom(
+                              // ignore: use_full_hex_values_for_flutter_colors
+                              backgroundColor: const Color(0xffff80849),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
                               'Daftar',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                              ),
-                            ),
-                            style:ElevatedButton.styleFrom(
-                              primary: Color(0xffff80849),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                           ),
@@ -238,7 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         RichText(
                           text: TextSpan(
                           text: 'Sudah Punya Akun  ',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize : 19,
                           ),
@@ -246,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           children: [
                             TextSpan(
                               text: 'Masuk',
-                              style:TextStyle(
+                              style:const TextStyle(
                                 color:Color(0xfff80849),
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -284,7 +286,7 @@ class _RegisterPageState extends State<RegisterPage> {
       fontSize: 33.0,
       fontWeight:FontWeight.bold, 
     );
-    return Container(      
+    return SizedBox(      
       width: double.infinity,
       child: Center(
         child: AnimatedTextKit(

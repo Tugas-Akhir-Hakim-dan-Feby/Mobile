@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/connection/app_config.dart';
 import 'package:api_mobile/model/login_model.dart';
@@ -5,13 +7,12 @@ import 'package:api_mobile/model/login_model.dart';
 // import 'package:api/model/login_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,7 +21,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
+  // ignore: non_constant_identifier_names
   final username_controller = TextEditingController();
+  // ignore: non_constant_identifier_names
   final password_controller = TextEditingController();
   var _isVisible = false;
 
@@ -30,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .show();
       return;
     }
+      // ignore: prefer_interpolation_to_compose_strings
       final response = await http.post(Uri.parse(AppConfig.getUrl() + 'login'), 
     body: {
       'email': txtEmail.text,
@@ -67,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    // final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -76,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 height: deviceHeight * 0.32,
-                child: FittedBox(
+                child: const FittedBox(
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
                       'assets/images/logo_api.jpg'
@@ -88,12 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 height: deviceHeight * 0.609,
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: LayoutBuilder(builder: (ctx,constraints){
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(' Asosiasi Pengelasan',
+                      const Text(' Asosiasi Pengelasan',
                       textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 32, 
@@ -123,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                  fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
                               hintText: "Masukan alamat email anda",
                               labelText: "Email",
                               icon: const Icon(Icons.email),
@@ -133,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                               ),
                             ),
                           ),
@@ -149,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: _isVisible ? false : true,
                             decoration: InputDecoration(
                               filled: true,
-                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                  fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
                               hintText: "Masukan Kata Sandi",
                               labelText: "Kata Sandi",
                               icon: const Icon(Icons.key),
@@ -176,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          TextButton(onPressed: (){}, child: Text(
+                          TextButton(onPressed: (){}, child: const Text(
                             'Lupa Kata Sandi',
                             style: TextStyle(
                               color: Color(0xfff80849),
@@ -191,23 +195,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.only(
                           top: constraints.maxHeight *0.05,
                         ),
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         child: ElevatedButton(
                           onPressed: (){
                             _doLogin();
                             
                           },
-                          child: Text(
+                          style:ElevatedButton.styleFrom(
+                            // ignore: use_full_hex_values_for_flutter_colors
+                            backgroundColor: const Color(0xffff80849),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text(
                             'Masuk',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
-                            ),
-                          ),
-                          style:ElevatedButton.styleFrom(
-                            primary: Color(0xffff80849),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
@@ -217,14 +222,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       RichText(text: TextSpan(
                         text: 'Tidak Punya Akun  ',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize : 19,
                         ),
                         children: [
                           TextSpan(
-                            text: 'Masuk',
-                            style:TextStyle(
+                            text: 'Daftar',
+                            style:const TextStyle(
                               color:Color(0xfff80849),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -260,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
       fontSize: 33.0,
       fontWeight:FontWeight.bold, 
     );
-    return Container(      
+    return SizedBox(      
       width: double.infinity,
       child: Center(
         child: AnimatedTextKit(
