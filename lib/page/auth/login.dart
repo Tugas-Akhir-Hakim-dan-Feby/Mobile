@@ -19,20 +19,20 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController txtPassword = TextEditingController();
-  TextEditingController txtUsername = TextEditingController();
+  TextEditingController txtEmail = TextEditingController();
   final username_controller = TextEditingController();
   final password_controller = TextEditingController();
   var _isVisible = false;
 
   Future _doLogin() async {
-    if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {
+    if (txtEmail.text.isEmpty || txtPassword.text.isEmpty) {
       Alert(context: context, title: "Data tidak benar", type: AlertType.error)
           .show();
       return;
     }
       final response = await http.post(Uri.parse(AppConfig.getUrl() + 'login'), 
     body: {
-      'email': txtUsername.text,
+      'email': txtEmail.text,
       'password': txtPassword.text,
     }, headers: {
       'Accept': 'application/json'
@@ -104,57 +104,71 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: constraints.maxHeight* 0.09,
                       ),
-                      Container(
-                        height: constraints.maxHeight*0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 2),
                           child: Center(
-                            child: TextField(
-                              controller: txtUsername,
+                            child: TextFormField(
+                              controller: txtEmail,
+                              validator: (value) {
+                                // Check if this field is empty
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                // using regular expression
+                                if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                                  return "Please enter a valid email address";
+                                }
+                                // the email is valid
+                                return null;
+                              },
                               decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan Alamat Email',
+                                  filled: true,
+                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                              hintText: "Masukan alamat email anda",
+                              labelText: "Email",
+                              icon: const Icon(Icons.email),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0)
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                               ),
                             ),
                           ),
-                        )
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.02,
-                      ),
-                      Container(
-                        height: constraints.maxHeight * 0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Center(
-                            child: TextField(
-                              controller: txtPassword,
-                              obscureText: _isVisible ? false : true,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  onPressed:(){
-                                  setState((){
-                                    _isVisible = !_isVisible;
-                                  });
-                                },
-                                  icon: Icon(
-                                    _isVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                    color: Colors.grey,
-                                  ), 
-                                  ),
-                                  border: InputBorder.none,
-                                  hintText: 'Password',
-                              ),
+                      SizedBox(
+                        height: constraints.maxHeight * 0.04,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2),
+                        child: Center(
+                          child: TextFormField(
+                            controller: txtPassword,
+                            obscureText: _isVisible ? false : true,
+                            decoration: InputDecoration(
+                              filled: true,
+                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                              hintText: "Masukan Kata Sandi",
+                              labelText: "Kata Sandi",
+                              icon: const Icon(Icons.key),
+                              suffixIcon: IconButton(
+                                onPressed:(){
+                                setState((){
+                                  _isVisible = !_isVisible;
+                                });
+                              },
+                                icon: Icon(
+                                  _isVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                                  color: Colors.grey,
+                                ), 
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0)
+                                ),
                             ),
                           ),
                         ),
@@ -163,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(onPressed: (){}, child: Text(
-                            'Forgot Password',
+                            'Lupa Kata Sandi',
                             style: TextStyle(
                               color: Color(0xfff80849),
                             ),
@@ -177,9 +191,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.only(
                           top: constraints.maxHeight *0.05,
                         ),
+                        padding: EdgeInsets.only(left: 10, right: 10),
                         child: ElevatedButton(
                           onPressed: (){
                             _doLogin();
+                            
                           },
                           child: Text(
                             'Masuk',
@@ -191,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style:ElevatedButton.styleFrom(
                             primary: Color(0xffff80849),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
@@ -200,17 +216,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: constraints.maxHeight *0.02,
                       ),
                       RichText(text: TextSpan(
-                        text: 'Dont\'t have an Account',
+                        text: 'Tidak Punya Akun  ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize : 18,
+                          fontSize : 19,
                         ),
                         children: [
                           TextSpan(
-                            text: 'Register',
+                            text: 'Masuk',
                             style:TextStyle(
                               color:Color(0xfff80849),
-                              fontSize: 18,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                             recognizer: TapGestureRecognizer()..onTap = (){
                               Navigator.pushNamed(context, 'register_page');

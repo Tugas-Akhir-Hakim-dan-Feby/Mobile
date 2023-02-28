@@ -53,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     //   Navigator.pushNamed(context, 'login_page');
                     // },
                     onPressed: () {
-                      Navigator.pushNamed(context, 'register_page');
+                      Navigator.pushNamed(context, 'login_page');
                     },
                     child: const Text('Get Started',
                         style: TextStyle(
