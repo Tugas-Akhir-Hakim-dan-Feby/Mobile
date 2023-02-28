@@ -93,10 +93,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(' Asosiasi Profesi',
+                      Text(' Asosiasi Pengelasan',
                       textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 33, 
+                          fontSize: 32, 
                           fontWeight:FontWeight.bold, 
                           ),
                       ),
@@ -182,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _doLogin();
                           },
                           child: Text(
-                            'Login',
+                            'Masuk',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
