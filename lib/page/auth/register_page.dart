@@ -19,12 +19,13 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   
   
 
   @override
   Widget build(BuildContext context) {
+    
     Future _doRegister() async {
     String name = txtUsername.text;
     String email = txtEmail.text;
@@ -94,6 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -110,131 +112,157 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              Container(
-                height: deviceHeight * 0.609,
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: LayoutBuilder(builder: (ctx,constraints){
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      animationDaftar(),
-                      Text(' Asosiasi Profesi',
-                      textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 33, 
-                          fontWeight:FontWeight.bold, 
-                          ),
-                      ),
-                      colorizeAnimation(),
-                      SizedBox(
-                        height: constraints.maxHeight* 0.09,
-                      ),
-                      Container(
-                        height: constraints.maxHeight*0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
+              Form(
+                key: _formKey,
+                child: Container(
+                  height: deviceHeight * 0.609,
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: LayoutBuilder(builder: (ctx,constraints){
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(' Asosiasi Pengelasan',
+                        textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30, 
+                            fontWeight:FontWeight.bold, 
+                            ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Center(
-                            child: TextField(
-                              controller: txtUsername,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan Username Anda',
+                        colorizeAnimation(),
+                          SizedBox(
+                          height: constraints.maxHeight* 0.09,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: Center(
+                              child: TextFormField(
+                                controller: txtUsername,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                              hintText: "Masukan Nama Anda",
+                              labelText: "Nama",
+                              icon: const Icon(Icons.people),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0)
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                              ),
                               ),
                             ),
                           ),
-                        )
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.02,
-                      ),
-                      Container(
-                        height: constraints.maxHeight * 0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
+                        SizedBox(
+                          height: constraints.maxHeight * 0.02,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2),
                           child: Center(
-                            child: TextField(
+                            child: TextFormField(
                               controller: txtEmail,
+                              validator: (value) {
+                                // Check if this field is empty
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                // using regular expression
+                                if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                                  return "Please enter a valid email address";
+                                }
+                                // the email is valid
+                                return null;
+                              },
                               decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan Email Anda',
+                                  filled: true,
+                                  fillColor: Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                              hintText: "Masukan alamat email anda",
+                              labelText: "Email",
+                              icon: const Icon(Icons.email),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0)
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(onPressed: (){}, child: Text(
-                            'Forgot Password',
-                            style: TextStyle(
-                              color: Color(0xfff80849),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(onPressed: (){}, child: Text(
+                              'Lupa Kata Sandi',
+                              style: TextStyle(
+                                color: Color(0xfff80849),
+                              ),
                             ),
-                          ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: constraints.maxHeight * 0.12,
-                        margin: EdgeInsets.only(
-                          top: constraints.maxHeight *0.05,
+                            ),
+                          ],
                         ),
-                        child: ElevatedButton(
-                          onPressed: (){
-                            _doRegister();
-                          },
-                          child: Text(
-                            'Daftar',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
+                        Container(
+                          width: double.infinity,
+                          height: constraints.maxHeight * 0.12,
+                          margin: EdgeInsets.only(
+                            top: constraints.maxHeight *0.05,
                           ),
-                          style:ElevatedButton.styleFrom(
-                            primary: Color(0xffff80849),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: ElevatedButton(
+                            onPressed: (){
+                              if (_formKey.currentState!.validate()) {
+                                _doRegister();
+                              }
+                            },
+                            child: Text(
+                              'Daftar',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                            ),
+                            style:ElevatedButton.styleFrom(
+                              primary: Color(0xffff80849),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight *0.02,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                        text: 'have an Account  ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize : 19,
+                        SizedBox(
+                          height: constraints.maxHeight *0.02,
                         ),
-                        
-                        children: [
-                          TextSpan(
-                            text: 'Login',
-                            style:TextStyle(
-                              color:Color(0xfff80849),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = (){}
+                        RichText(
+                          text: TextSpan(
+                          text: 'Sudah Punya Akun  ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize : 19,
                           ),
-                        ],
-                      ))
-                    ],
-                  );
-                },),
-                // color: Colors.amber,
+                          
+                          children: [
+                            TextSpan(
+                              text: 'Masuk',
+                              style:TextStyle(
+                                color:Color(0xfff80849),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                Navigator.pushNamed(context, 'login_page');
+                              },
+                            ),
+                          ],
+                        )
+                        )
+                      ],
+                    );
+                  },),
+                  // color: Colors.amber,
+                ),
               ),
             ],
           ),
@@ -286,37 +314,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
 
-  Widget animationDaftar() {
-    const colorizeColors = [
-    Color.fromARGB(255, 255, 17, 0),
-    Color.fromARGB(255, 242, 36, 36),
-    Color.fromARGB(255, 248, 52, 52),
-    Color.fromARGB(255, 244, 144, 144),
-
-    ];
-
-    const colorizeTextStyle = TextStyle(
-      fontSize: 33.0,
-      fontWeight:FontWeight.bold, 
-    );
-    return Container(      
-      width: double.infinity,
-      child: Center(
-        child: AnimatedTextKit(
-          animatedTexts: [
-            ColorizeAnimatedText(
-              'Daftar',
-              textStyle: colorizeTextStyle,
-              colors: colorizeColors,
-            ),
-          ],
-          // isRepeatingAnimation: true,
-          // totalRepeatCount: 10,
-          repeatForever: true,
-        ),
-      ),
-    );
-  }
+  
 
   Widget fadeAlertAnimation(
     BuildContext context,
@@ -331,6 +329,8 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  
 
 }
 
