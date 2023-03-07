@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final loginModel = loginModelFromJson(jsonString);
-
 import 'dart:convert';
 
 LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
@@ -53,7 +49,7 @@ class User {
         required this.id,
         required this.name,
         required this.email,
-        required this.idRole,
+        required this.roleId,
         required this.token,
         required this.createdAt,
         required this.updatedAt,
@@ -62,7 +58,7 @@ class User {
     int id;
     String name;
     String email;
-    int idRole;
+    int roleId;
     String token;
     DateTime createdAt;
     DateTime updatedAt;
@@ -71,7 +67,7 @@ class User {
         id: json["id"],
         name: json["name"],
         email: json["email"],
-        idRole: json["id_role"],
+        roleId: json["roleId"],
         token: json["token"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -81,7 +77,7 @@ class User {
         "id": id,
         "name": name,
         "email": email,
-        "id_role": idRole,
+        "roleId": roleId,
         "token": token,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),

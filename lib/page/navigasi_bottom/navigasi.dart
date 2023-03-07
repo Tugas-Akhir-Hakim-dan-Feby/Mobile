@@ -1,52 +1,116 @@
-
+import 'package:api_mobile/page/blog/blog.dart';
+import 'package:api_mobile/page/chat/chat.dart';
 import 'package:api_mobile/page/home/home.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:api_mobile/page/member/member.dart';
+import 'package:api_mobile/page/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 
-class Navigasi extends StatefulWidget {
-  const Navigasi({Key? key}) : super(key: key);
+class NavigasiPage extends StatefulWidget {
+  const NavigasiPage({super.key});
 
+  
   @override
-  State<Navigasi> createState() => _NavigasiState();
+  // ignore: library_private_types_in_public_api
+  _NavigasiPageState createState() => _NavigasiPageState();
 }
 
-class _NavigasiState extends State<Navigasi> {
-  final navigationKey = GlobalKey<CurvedNavigationBarState>();
-  int? index = 0;
+class _NavigasiPageState extends State<NavigasiPage> {
+  
+  int _selectedIndex = 0;
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  // static const List<Widget> _widgetOptions = <Widget>[
+    // Text(
+    //   'Home',
+    //   style: optionStyle,
+    // ),
+    // Text(
+    //   'Likes',
+    //   style: optionStyle,
+    // ),
+    // Text(
+    //   'Search',
+    //   style: optionStyle,
+    // ),
+    // Text(
+    //   'Profile',
+    //   style: optionStyle,
+    // ),
+  // ];
   final screens = [
     HomePage(),
-    HomePage(),
-    HomePage(),
+    const BlogPage(),
+    const MemberPage(),
+    const ChatPage(),
+    const ProfilePage()
   ];
+
   @override
   Widget build(BuildContext context) {
-    final items = <Widget>[
-      const Icon(Icons.home, size: 30),
-      // Icon(Icons.search, size: 30),
-      const Icon(Icons.assignment_sharp, size: 30),
-
-      // Icon(Icons.settings, size: 30),
-      const Icon(Icons.person, size: 30),
-    ];
+    // ignore: unused_label
+    resizeToAvoidBottomPadding: false;
     return Scaffold(
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              iconTheme: const IconThemeData(
-                  color: Color.fromARGB(255, 255, 255, 255))),
-          child: CurvedNavigationBar(
-            key: navigationKey,
-            color: Colors.brown.shade200,
-            buttonBackgroundColor: const Color.fromARGB(255, 141, 130, 130),
-            backgroundColor: Colors.transparent,
-            // backgroundColor: Color.fromARGB(255, 255, 255, 255),
-            items: items,
-            height: 60,
-            animationCurve: Curves.easeInOut,
-            animationDuration: const Duration(milliseconds: 650),
-            index: index!,
-            onTap: (index) => setState(() => this.index = index),
+      body: Center(
+        child: screens.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300]!,
+              hoverColor: Colors.grey[100]!,
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 27,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              duration: const Duration(milliseconds: 400),
+              tabBackgroundColor: Colors.grey[100]!,
+              color: Colors.black,
+              // textSize: 100,
+              tabs: const [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Beranda',
+                ),
+                GButton(
+                  icon: LineIcons.heart,
+                  text: 'Blog',
+                ),
+                GButton(
+                  icon: LineIcons.moneyCheck,
+                  text: 'Member',
+                ),
+                GButton(
+                  icon: LineIcons.facebookMessenger,
+                  text: 'Pesan',
+                ),
+                GButton(
+                  icon: LineIcons.user,
+                  text: 'Profile',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
           ),
         ),
-        body: screens[index!]);
+      ),
+    );
   }
 }

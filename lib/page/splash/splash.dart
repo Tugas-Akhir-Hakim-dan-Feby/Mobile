@@ -13,7 +13,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-        splash: 'assets/images/logo_api.jpg',
+        splash: 'assets/images/logo_api.png',
         duration: 5000,
         splashTransition: SplashTransition.scaleTransition,
         // ignore: prefer_const_constructors
