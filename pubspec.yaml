@@ -55,6 +55,7 @@ dependencies:
   firebase_messaging_web: ^3.2.12
   animated_text_kit: ^4.2.2
   get: ^4.6.5
+  smooth_page_indicator: ^1.0.1
 
 
 dev_dependencies:
