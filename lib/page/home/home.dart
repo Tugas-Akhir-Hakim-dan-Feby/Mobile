@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:sp_util/sp_util.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, String? title}) : super(key: key);
+  const HomePage({Key? key, String? title}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();

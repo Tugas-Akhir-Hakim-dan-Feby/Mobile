@@ -5,6 +5,7 @@ import 'package:api_mobile/page/home/home.dart';
 import 'package:api_mobile/page/navigasi_bottom/navigasi.dart';
 import 'package:api_mobile/page/profile/profile.dart';
 import 'package:api_mobile/page/splash/splash.dart';
+import 'package:api_mobile/page/welcome/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         'register_page': (context) => const RegisterPage(),
         'splash_page': (context) => const SplashPage(),
         'profile_page': (context) => const ProfilePage(),
-        'home_page':(context) => HomePage(),
+        'home_page':(context) => const HomePage(),
+        'welcome_page': (context) => const WelcomePage(),
         // 'navigasi_page':(context) => const Navigasi(),
         'navigasi_page':(context) =>  const NavigasiPage(),
       },

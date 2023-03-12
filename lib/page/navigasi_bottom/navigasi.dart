@@ -41,7 +41,7 @@ class _NavigasiPageState extends State<NavigasiPage> {
   // ];
   final screens = [
     HomePage(),
-    const BlogPage(),
+    BlogPage(),
     const MemberPage(),
     const ChatPage(),
     const ProfilePage()
