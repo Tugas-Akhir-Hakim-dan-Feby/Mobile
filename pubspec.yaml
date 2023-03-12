@@ -53,7 +53,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   get: ^4.6.5
   smooth_page_indicator: ^1.0.1
-  
+
   # navbar
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
