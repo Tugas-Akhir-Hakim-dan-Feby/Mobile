@@ -1,16 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/connection/app_config.dart';
-import 'package:api_mobile/model/login_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -19,12 +16,15 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
+  
   
   
 
   @override
   Widget build(BuildContext context) {
+    
+    // ignore: no_leading_underscores_for_local_identifiers
     Future _doRegister() async {
     String name = txtUsername.text;
     String email = txtEmail.text;
@@ -37,7 +37,14 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
     ProgressDialog progressDialog = ProgressDialog(context: context);
-    progressDialog.show(msg: "Loading......", max: 100);
+    progressDialog.show(
+      msg: "Memuat......", 
+      progressBgColor: const Color.fromARGB(0, 174, 155, 155),
+      max: 100,
+      barrierDismissible: true,
+      hideValue: true,
+      completed: Completed(),
+    );
     final response =
         await http.post(Uri.parse(AppConfig.getUrl() ), body: {
       'name': name,
@@ -50,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // print(response.statusCode);
     // print(response.body);
     if (response.statusCode == 201) {
+      // ignore: use_build_context_synchronously
       Alert(
           context: context,
           title: "Cek Email Anda",
@@ -67,13 +75,14 @@ class _RegisterPageState extends State<RegisterPage> {
           ]).show();
     } 
     else if (response.statusCode == 400) {
+      // ignore: use_build_context_synchronously
       Alert(
           context: context,
           title: "Email Sudah Terdaftar",
           type: AlertType.warning,
           buttons: [
             DialogButton(
-              child: Text(
+              child: const Text(
                     "Ganti Email",
                     style: TextStyle(color: Colors.white, fontSize: 20),
               ),
@@ -84,6 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
             )
           ]).show();
     } else {
+      // ignore: use_build_context_synchronously
       Alert(
               context: context,
               title: "Data Gagal disimpan",
@@ -92,151 +102,188 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
     final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                height: deviceHeight * 0.32,
-                child: FittedBox(
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                      'assets/images/logo_api.jpg'
+    // final deviceWidth = MediaQuery.of(context).size.width;
+    return SingleChildScrollView(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  height: deviceHeight * 0.32,
+                  child: const FittedBox(
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(
+                        'assets/images/logo_api.jpg'
+                      ),
+                      // radius: 120,
                     ),
-                    radius: 120,
                   ),
                 ),
-              ),
-              Container(
-                height: deviceHeight * 0.609,
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: LayoutBuilder(builder: (ctx,constraints){
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      animationDaftar(),
-                      Text(' Asosiasi Profesi',
-                      textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 33, 
-                          fontWeight:FontWeight.bold, 
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    height: deviceHeight * 0.609,
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: LayoutBuilder(builder: (ctx,constraints){
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          colorizeAnimation(),
+                          const Text(' Daftar Menjadi Bagian dari Asosiasi Pengelasan Indonesia',
+                          textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 21, 
+                              fontWeight:FontWeight.bold, 
+                              ),
                           ),
-                      ),
-                      colorizeAnimation(),
-                      SizedBox(
-                        height: constraints.maxHeight* 0.09,
-                      ),
-                      Container(
-                        height: constraints.maxHeight*0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Center(
-                            child: TextField(
-                              controller: txtUsername,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan Username Anda',
+                            SizedBox(
+                            height: constraints.maxHeight* 0.09,
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 2),
+                              child: Center(
+                                child: TextFormField(
+                                  controller: txtUsername,
+                                  validator: (value) {
+                                    // Check if this field is empty
+                                    if (value == null || value.isEmpty) {
+                                      return 'Nama Harus di isi';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                hintText: "Masukan Nama Anda",
+                                labelText: "Nama",
+                                icon: const Icon(Icons.people),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0)
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                                ),
+                                ),
+                              ),
+                            ),
+                          SizedBox(
+                            height: constraints.maxHeight * 0.04,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2),
+                            child: Center(
+                              child: TextFormField(
+                                controller: txtEmail,
+                                validator: (value) {
+                                  // Check if this field is empty
+                                  if (value == null || value.isEmpty) {
+                                    return 'Email Harus di isi';
+                                  }
+                                  // using regular expression
+                                  if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                                    return "Masukan Email yang Valid";
+                                  }
+                                  // the email is valid
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: const Color.fromARGB(255, 228, 226, 226).withOpacity(0.4),
+                                hintText: "Masukan alamat email anda",
+                                labelText: "Email",
+                                icon: const Icon(Icons.email),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0)
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                                ),
                               ),
                             ),
                           ),
-                        )
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.02,
-                      ),
-                      Container(
-                        height: constraints.maxHeight * 0.12,
-                        decoration: BoxDecoration(
-                          color: Color(0xffB4B4B4).withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Center(
-                            child: TextField(
-                              controller: txtEmail,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Masukan Email Anda',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(onPressed: (){}, child: const Text(
+                                'Lupa Kata Sandi',
+                                style: TextStyle(
+                                  color: Color(0xfff80849),
+                                ),
+                              ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: constraints.maxHeight * 0.12,
+                            margin: EdgeInsets.only(
+                              top: constraints.maxHeight *0.05,
+                            ),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                if (_formKey.currentState!.validate()) {
+                                  _doRegister();
+                                }
+                              },
+                              style:ElevatedButton.styleFrom(
+                                // ignore: use_full_hex_values_for_flutter_colors
+                                backgroundColor: const Color(0xffff80849),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                'Daftar',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(onPressed: (){}, child: Text(
-                            'Forgot Password',
-                            style: TextStyle(
-                              color: Color(0xfff80849),
+                          SizedBox(
+                            height: constraints.maxHeight *0.02,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                            text: 'Sudah Punya Akun  ',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize : 19,
                             ),
-                          ),
-                          ),
+                            
+                            children: [
+                              TextSpan(
+                                text: 'Masuk',
+                                style:const TextStyle(
+                                  color:Color(0xfff80849),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  Navigator.pushNamed(context, 'login_page');
+                                },
+                              ),
+                            ],
+                          )
+                          )
                         ],
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: constraints.maxHeight * 0.12,
-                        margin: EdgeInsets.only(
-                          top: constraints.maxHeight *0.05,
-                        ),
-                        child: ElevatedButton(
-                          onPressed: (){
-                            _doRegister();
-                          },
-                          child: Text(
-                            'Daftar',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
-                          ),
-                          style:ElevatedButton.styleFrom(
-                            primary: Color(0xffff80849),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: constraints.maxHeight *0.02,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                        text: 'have an Account  ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize : 19,
-                        ),
-                        
-                        children: [
-                          TextSpan(
-                            text: 'Login',
-                            style:TextStyle(
-                              color:Color(0xfff80849),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = (){}
-                          ),
-                        ],
-                      ))
-                    ],
-                  );
-                },),
-                // color: Colors.amber,
-              ),
-            ],
+                      );
+                    },),
+                    // color: Colors.amber,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -256,13 +303,13 @@ class _RegisterPageState extends State<RegisterPage> {
       fontSize: 33.0,
       fontWeight:FontWeight.bold, 
     );
-    return Container(      
+    return SizedBox(      
       width: double.infinity,
       child: Center(
         child: AnimatedTextKit(
           animatedTexts: [
             ColorizeAnimatedText(
-              'Indonesia',
+              'API',
               textStyle: colorizeTextStyle,
               colors: colorizeColors,
             ),
@@ -286,37 +333,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
 
-  Widget animationDaftar() {
-    const colorizeColors = [
-    Color.fromARGB(255, 255, 17, 0),
-    Color.fromARGB(255, 242, 36, 36),
-    Color.fromARGB(255, 248, 52, 52),
-    Color.fromARGB(255, 244, 144, 144),
-
-    ];
-
-    const colorizeTextStyle = TextStyle(
-      fontSize: 33.0,
-      fontWeight:FontWeight.bold, 
-    );
-    return Container(      
-      width: double.infinity,
-      child: Center(
-        child: AnimatedTextKit(
-          animatedTexts: [
-            ColorizeAnimatedText(
-              'Daftar',
-              textStyle: colorizeTextStyle,
-              colors: colorizeColors,
-            ),
-          ],
-          // isRepeatingAnimation: true,
-          // totalRepeatCount: 10,
-          repeatForever: true,
-        ),
-      ),
-    );
-  }
+  
 
   Widget fadeAlertAnimation(
     BuildContext context,
@@ -331,6 +348,8 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  
 
 }
 

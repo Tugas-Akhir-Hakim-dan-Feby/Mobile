@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
       'http://propertiku.proyek.ti.polindra.ac.id/api/perumahan/data';
   Future dataPerumahan() async {
     var response =
+        // ignore: prefer_interpolation_to_compose_strings
         await http.get(Uri.parse(AppConfig.getUrl() + 'perumahan/data'));
     print(json.decode(response.body));
     return json.decode(response.body);
@@ -323,6 +324,7 @@ class _HomePageState extends State<HomePage> {
                                                           [index]['uraian'])),
                                               Align(
                                                   alignment: Alignment.topLeft,
+                                                  // ignore: prefer_interpolation_to_compose_strings
                                                   child: Text("Lokasi " +
                                                       snapshot.data['data']
                                                           [index]['alamat'])),

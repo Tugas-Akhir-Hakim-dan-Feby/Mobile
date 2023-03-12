@@ -27,15 +27,15 @@ class _WelcomePageState extends State<WelcomePage> {
                           fit: BoxFit.fill)),
                 ),
               ),
-              Positioned(
-                height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/nama_aplikasi.png', ))),
-                ),
-              ),
+          //     Positioned(
+          //       height: MediaQuery.of(context).size.height,
+          // width: MediaQuery.of(context).size.width,
+          //       child: Container(
+          //         decoration: const BoxDecoration(
+          //             image: DecorationImage(
+          //               image: AssetImage('assets/images/nama_aplikasi.png', ))),
+          //       ),
+          //     ),
               Positioned(
                 top: 400,
                 width: MediaQuery.of(context).size.width,
@@ -53,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     //   Navigator.pushNamed(context, 'login_page');
                     // },
                     onPressed: () {
-                      Navigator.pushNamed(context, 'register_page');
+                      Navigator.pushNamed(context, 'login_page');
                     },
                     child: const Text('Get Started',
                         style: TextStyle(
