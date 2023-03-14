@@ -16,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   bool showPass = true;
   final argumen = Get.arguments;
   AuthController authController = AuthController();
-
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   // ignore: non_constant_identifier_names
