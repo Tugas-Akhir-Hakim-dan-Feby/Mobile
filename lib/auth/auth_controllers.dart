@@ -69,7 +69,7 @@ class AuthController {
 
           Get.offAll(const ProfilePage());
         }
-        if (data['user']['role_id'] == 7) {
+        if (data['user']['role_id'] == 5) {
             Alert(
             context: context!,
             type: AlertType.success,

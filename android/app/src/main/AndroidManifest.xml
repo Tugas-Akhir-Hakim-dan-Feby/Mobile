@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.api_mobile">
    <application
-        android:label="api_mobile"
+        android:label="API INDONESIA"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

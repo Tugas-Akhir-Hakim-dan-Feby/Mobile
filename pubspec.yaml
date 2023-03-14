@@ -58,11 +58,20 @@ dependencies:
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
   font_awesome_flutter: ^10.4.0
+  flutter_pw_validator: ^1.5.0
+  flutter_launcher_icons: ^0.12.0
   # navbar end
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_api.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,6 +94,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/logo_api.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

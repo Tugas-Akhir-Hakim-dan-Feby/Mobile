@@ -1,5 +1,5 @@
 import 'package:api_mobile/firebase_options.dart';
-import 'package:api_mobile/page/auth/login.dart';
+import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/auth/register_page.dart';
 import 'package:api_mobile/page/home/home.dart';
 import 'package:api_mobile/page/navigasi_bottom/navigasi.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // 'register_page': (context) => const RegisterPage(),
         'login_page': (context) => const LoginPage(),
-        'register_page': (context) => const RegisterPage(),
+        'register_page': (context) => RegisterPage(),
         'splash_page': (context) => const SplashPage(),
         'profile_page': (context) => const ProfilePage(),
         'home_page':(context) => const HomePage(),
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
       ),
 
       initialRoute:
-          (SpUtil.getBool("isLogin")!) ? 'navigasi_page' : 'splash_page',
+          (SpUtil.getBool("isLogin")!) ? 'navigasi_page' : 'login_page',
     );
   }
 }

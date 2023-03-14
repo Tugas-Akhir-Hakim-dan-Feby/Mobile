@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                                       _isVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: Colors.grey,
+                                      color: Color.fromARGB(255, 158, 158, 158),
                                     ),
                                   ),
                                   border: OutlineInputBorder(

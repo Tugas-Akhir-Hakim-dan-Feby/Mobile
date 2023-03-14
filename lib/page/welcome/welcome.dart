@@ -1,5 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:api_mobile/page/auth/login.dart';
+import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
