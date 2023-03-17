@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
       ),
 
       initialRoute:
-          (SpUtil.getBool("isLogin")!) ? 'navigasi_page' : 'login_page',
+          (SpUtil.getBool("isLogin")!) ? 'navigasi_page' : 'splash_page',
     );
   }
 }

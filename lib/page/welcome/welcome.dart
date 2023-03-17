@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/welcome/first_page.dart';
 import 'package:api_mobile/page/welcome/second_page.dart';
+import 'package:api_mobile/page/welcome/third_page.dart';
 import 'package:api_mobile/page/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -15,13 +16,13 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
- final _controller=PageController();
+  final _controller = PageController();
   int currentPosition = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -30,28 +31,25 @@ class _WelcomePageState extends State<WelcomePage> {
             child: PageView(
               controller: _controller,
               children: const [
-                // RegisterPage(),
                 FirstPage(),
                 SecondPage(),
-                // ThirdPage(),
-                // FourthPage(),
+                ThirdPage(),
               ],
             ),
           ),
           SmoothPageIndicator(
             controller: _controller,
-            count: 4,
+            count: 3,
             effect: SlideEffect(
-              activeDotColor: Color.fromARGB(255, 0, 0, 0),
+              activeDotColor: Color.fromARGB(255, 255, 0, 0),
               dotColor: Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
               dotHeight: 20,
               dotWidth: 20,
-            ), 
+            ),
           ),
         ],
       ),
     );
-  
   }
 }
 

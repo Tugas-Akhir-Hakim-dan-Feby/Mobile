@@ -6,14 +6,33 @@ class SecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: const EdgeInsets.all(40),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            color: Color.fromARGB(255, 139, 55, 249),
-          ),
-        ),
+      body: ClipRRect(
+        child:   Container(  
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: Image.asset('assets/images/logo.png'),
+                    ),
+                    const Center(
+                      child: Text(
+                        'API',
+                        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Center(
+                      child: Text(
+                        'asosiasi pengelasan indonesia',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            
       ),
     );
   }
