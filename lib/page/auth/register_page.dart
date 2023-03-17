@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Future _doRegister() async {
       String name = txtUsername.text;
       String email = txtEmail.text;
+      // ignore: unused_local_variable
       String password = txtPassword.text;
       if (name.isEmpty || email.isEmpty) {
         Alert(
@@ -264,11 +265,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                           });
                                         },
                                         icon: _isVisible
-                                            ? Icon(
+                                            ? const Icon(
                                                 Icons.visibility,
                                                 color: Colors.black,
                                               )
-                                            : Icon(
+                                            : const Icon(
                                                 Icons.visibility_off,
                                                 color: Colors.grey,
                                               ),
@@ -285,13 +286,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Row(
                                   children: [
                                     AnimatedContainer(
-                                      duration: Duration(milliseconds: 500),
+                                      duration: const Duration(milliseconds: 500),
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
@@ -305,7 +306,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   color: Colors.grey.shade400),
                                           borderRadius:
                                               BorderRadius.circular(50)),
-                                      child: Center(
+                                      child: const Center(
                                         child: Icon(
                                           Icons.check,
                                           color: Colors.white,
@@ -313,19 +314,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Contains at least 8 characters")
+                                    const Text("Contains at least 8 characters")
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
                                   children: [
                                     AnimatedContainer(
-                                      duration: Duration(milliseconds: 500),
+                                      duration: const Duration(milliseconds: 500),
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
@@ -339,7 +340,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   color: Colors.grey.shade400),
                                           borderRadius:
                                               BorderRadius.circular(50)),
-                                      child: Center(
+                                      child: const Center(
                                         child: Icon(
                                           Icons.check,
                                           color: Colors.white,
@@ -347,10 +348,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Contains at least 1 number")
+                                    const Text("Contains at least 1 number")
                                   ],
                                 ),
                                 // SizedBox(
@@ -387,7 +388,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                  Navigator.pushReplacementNamed(context, 'reset_password_page');
+                                  },
                                   child: const Text(
                                     'Lupa Kata Sandi',
                                     style: TextStyle(

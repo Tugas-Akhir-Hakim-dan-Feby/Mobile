@@ -53,32 +53,34 @@ class AuthController {
         if (data['user']['role_id'] == 4) {
           Alert(
             context: context!,
+            type: AlertType.success,
+            alertAnimation: fadeAlertAnimation,
             style: alertStyle,
             title: "Selamat Datang",
-            // desc: "Selamat Datang",
-            alertAnimation: fadeAlertAnimation,
             buttons: [
             DialogButton(
-              child: const Text("Masuk"),
+              color:Color.fromARGB(255, 68, 233, 74),
+              child: const Text(
+                "Masuk",
+                style: TextStyle(color: Colors.white, fontSize: 14,),
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, 'navigasi_page');
               },
             )
           ]
           ).show();
-
-          Get.offAll(const ProfilePage());
         }
         if (data['user']['role_id'] == 5) {
             Alert(
             context: context!,
             type: AlertType.success,
+            // alertAnimation: fadeAlertAnimation,
             style: alertStyle,
             title: "Selamat Datang",
-            // desc: "Flutter is more awesome with RFlutter Alert.",
-            alertAnimation: fadeAlertAnimation,
             buttons: [
             DialogButton(
+              color:Color.fromARGB(255, 68, 233, 74),
               child: const Text(
                 "Masuk",
                 style: TextStyle(color: Colors.white, fontSize: 14,),

@@ -1,26 +1,28 @@
 import 'package:api_mobile/page/blog/insta_body.dart';
 import 'package:flutter/material.dart';
 class BlogPage extends StatelessWidget {
-  final topBar = new AppBar(
-    backgroundColor: new Color(0xfff8faf8),
+  final topBar = AppBar(
+    backgroundColor: const Color(0xfff8faf8),
     centerTitle: true,
     elevation: 1.0,
-    leading: new Icon(Icons.camera_alt),
+    leading: const Icon(Icons.camera_alt),
     title: SizedBox(
-        height: 35.0, child: Image.asset("assets/images/insta_logo.png")),
-    actions: <Widget>[
+        height: 35.0, child: Image.asset("assets/images/tulisan_logo_api.png")),
+    actions: const <Widget>[
       Padding(
-        padding: const EdgeInsets.only(right: 12.0),
+        padding: EdgeInsets.only(right: 12.0),
         child: Icon(Icons.send),
       )
     ],
   );
 
+  BlogPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: topBar,
-        body: new InstaBody(),
+        body: const InstaBody(),
         // bottomNavigationBar: new Container(
         //   color: Colors.white,
         //   height: 50.0,

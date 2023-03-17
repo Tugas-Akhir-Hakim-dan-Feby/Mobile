@@ -1,8 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:api_mobile/page/blog/insta_stories.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InstaList extends StatefulWidget {
+  const InstaList({super.key});
+
   @override
   _InstaListState createState() => _InstaListState();
 }
@@ -17,9 +21,9 @@ class _InstaListState extends State<InstaList> {
       itemCount: 8,
       itemBuilder: (context, index) => index == 0
           ? 
-          new SizedBox(
-              child: new InstaStories(),
+          SizedBox(
               height: deviceSize.height * 0.15,
+              child: InstaStories(),
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -33,27 +37,27 @@ class _InstaListState extends State<InstaList> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          new Container(
+                          Container(
                             height: 40.0,
                             width: 40.0,
-                            decoration: new BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              image: new DecorationImage(
+                              image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: new NetworkImage(
+                                  image: NetworkImage(
                                       "https://dagodreampark.co.id/images/ke_2.jpg")),
                             ),
                           ),
-                          new SizedBox(
+                          const SizedBox(
                             width: 10.0,
                           ),
-                          new Text(
+                          const Text(
                             "Alan",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
-                      new IconButton(
+                      const IconButton(
                         icon: Icon(Icons.more_vert),
                         onPressed: null,
                       )
@@ -62,7 +66,7 @@ class _InstaListState extends State<InstaList> {
                 ),
                 Flexible(
                   fit: FlexFit.loose,
-                  child: new Image.network(
+                  child: Image.network(
                     "https://images.pexels.com/photos/672657/pexels-photo-672657.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                     fit: BoxFit.cover,
                   ),
@@ -72,11 +76,11 @@ class _InstaListState extends State<InstaList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      new Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new IconButton(
-                            icon: new Icon(isPressed
+                          IconButton(
+                            icon: Icon(isPressed
                                 ? Icons.favorite
                                 : FontAwesomeIcons.heart),
                             color: isPressed ? Colors.red : Colors.black,
@@ -86,24 +90,24 @@ class _InstaListState extends State<InstaList> {
                               });
                             },
                           ),
-                          new SizedBox(
+                          const SizedBox(
                             width: 16.0,
                           ),
-                          new Icon(
+                          const Icon(
                             FontAwesomeIcons.comment,
                           ),
-                          new SizedBox(
+                          const SizedBox(
                             width: 16.0,
                           ),
-                          new Icon(FontAwesomeIcons.paperPlane),
+                          const Icon(FontAwesomeIcons.paperPlane),
                         ],
                       ),
-                      new Icon(FontAwesomeIcons.bookmark)
+                      const Icon(FontAwesomeIcons.bookmark)
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     "Liked by pawankumar, pk and 528,331 others",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -114,23 +118,23 @@ class _InstaListState extends State<InstaList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      new Container(
+                      Container(
                         height: 40.0,
                         width: 40.0,
-                        decoration: new BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          image: new DecorationImage(
+                          image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage(
+                              image: NetworkImage(
                                   "https://dagodreampark.co.id/images/ke_2.jpg")),
                         ),
                       ),
-                      new SizedBox(
+                      const SizedBox(
                         width: 10.0,
                       ),
-                      Expanded(
-                        child: new TextField(
-                          decoration: new InputDecoration(
+                      const Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Add a comment...",
                           ),
@@ -139,8 +143,8 @@ class _InstaListState extends State<InstaList> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child:
                       Text("1 Day Ago", style: TextStyle(color: Colors.grey)),
                 )

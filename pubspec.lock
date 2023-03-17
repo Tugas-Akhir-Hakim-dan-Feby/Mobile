@@ -230,6 +230,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.0"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      sha256: aeb0b80a8b3709709c9cc496cdc027c5b3216796bc0af0ce1007eaf24464fd4c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   flutter_pw_validator:
     dependency: "direct main"
     description:
@@ -304,6 +312,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  icon_badge:
+    dependency: "direct main"
+    description:
+      name: icon_badge
+      sha256: "44d659765cc891705a7e93f36590fd795ecf3a1201aff67d4c5061d2b610c20f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   image:
     dependency: transitive
     description:
@@ -341,6 +357,14 @@ packages:
     description:
       name: line_icons
       sha256: "609ce366e38fb046199b7b8f627a703ca4e07018216f4e60d2d7027e7f666b71"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"

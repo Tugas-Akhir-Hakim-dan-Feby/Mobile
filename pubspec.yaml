@@ -60,10 +60,12 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   flutter_pw_validator: ^1.5.0
   flutter_launcher_icons: ^0.12.0
+  icon_badge: ^1.0.0
   # navbar end
 
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
     

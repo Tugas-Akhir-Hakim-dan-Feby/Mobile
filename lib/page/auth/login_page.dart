@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                                       _isVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: Color.fromARGB(255, 158, 158, 158),
+                                      color: const Color.fromARGB(255, 158, 158, 158),
                                     ),
                                   ),
                                   border: OutlineInputBorder(
@@ -193,7 +193,9 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, 'reset_password_page');
+                                },
                                 child: const Text(
                                   'Lupa Kata Sandi',
                                   style: TextStyle(
