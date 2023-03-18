@@ -23,75 +23,108 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Stack(
         children: [
-          SizedBox(
-            height: 500,
-            child: PageView(
-              controller: _controller,
-              children: const [
-                FirstPage(),
-                SecondPage(),
-                ThirdPage(),
-              ],
-              onPageChanged: (index) {
-                setState(() {
-                  currentPosition = index;
-                });
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                onPressed: () => _controller.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut),
-                icon: currentPosition == 0
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Icon(
-                          Icons.numbers_outlined,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Icon(Icons.arrow_back_ios),
-              ),
-              SmoothPageIndicator(
-                controller: _controller,
-                count: 3,
-                effect: SlideEffect(
-                  activeDotColor: Color.fromARGB(255, 255, 0, 0),
-                  dotColor: Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
-                  dotHeight: 20,
-                  dotWidth: 20,
+              SizedBox(
+                height: 500,
+                child: PageView(
+                  controller: _controller,
+                  children: const [
+                    FirstPage(),
+                    SecondPage(),
+                    ThirdPage(),
+                  ],
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentPosition = index;
+                    });
+                  },
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  if (currentPosition == 2) {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => LoginPage()),
-                    // );
-                    Navigator.pushNamed(context, 'login_page');
-                  } else {
-                    _controller.nextPage(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    onPressed: () => _controller.previousPage(
                         duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut);
-                  }
-                },
-                child: Icon(
-                  currentPosition == 2 ? Icons.done : Icons.arrow_forward_ios,
-                ),
+                        curve: Curves.easeInOut),
+                    icon: currentPosition == 0
+                        ? SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Icon(
+                              Icons.numbers_outlined,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Icon(Icons.arrow_back_ios),
+                  ),
+                  SmoothPageIndicator(
+                    controller: _controller,
+                    count: 3,
+                    effect: SlideEffect(
+                      activeDotColor: Color.fromARGB(255, 255, 0, 0),
+                      dotColor:
+                          Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
+                      dotHeight: 20,
+                      dotWidth: 20,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (currentPosition == 2) {
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(builder: (context) => LoginPage()),
+                        // );
+                        Navigator.pushNamed(context, 'login_page');
+                      } else {
+                        _controller.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut);
+                      }
+                    },
+                    child: Icon(
+                      currentPosition == 2
+                          ? Icons.done
+                          : Icons.arrow_forward_ios,
+                    ),
+                  ),
+                ],
               ),
             ],
+          ),
+          Positioned(
+            top: 70,
+            right: 40,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, 'login_page');
+              },
+              child: Container(
+                width: 75,
+                height: 35,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 255, 0, 0),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    'Lewati',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 }
-

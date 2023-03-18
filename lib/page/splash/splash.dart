@@ -14,7 +14,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
         splash: 'assets/images/logo_api.png',
-        duration: 5000,
+        duration: 2000,
         splashTransition: SplashTransition.scaleTransition,
         // ignore: prefer_const_constructors
         backgroundColor:  Color.fromARGB(255, 158, 33, 33),
