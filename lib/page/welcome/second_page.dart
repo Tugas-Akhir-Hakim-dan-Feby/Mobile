@@ -31,8 +31,7 @@ class SecondPage extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
-            
+              ),           
       ),
     );
   }

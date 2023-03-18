@@ -35,17 +35,59 @@ class _WelcomePageState extends State<WelcomePage> {
                 SecondPage(),
                 ThirdPage(),
               ],
+              onPageChanged: (index) {
+                setState(() {
+                  currentPosition = index;
+                });
+              },
             ),
           ),
-          SmoothPageIndicator(
-            controller: _controller,
-            count: 3,
-            effect: SlideEffect(
-              activeDotColor: Color.fromARGB(255, 255, 0, 0),
-              dotColor: Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
-              dotHeight: 20,
-              dotWidth: 20,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () => _controller.previousPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut),
+                icon: currentPosition == 0
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(
+                          Icons.numbers_outlined,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Icon(Icons.arrow_back_ios),
+              ),
+              SmoothPageIndicator(
+                controller: _controller,
+                count: 3,
+                effect: SlideEffect(
+                  activeDotColor: Color.fromARGB(255, 255, 0, 0),
+                  dotColor: Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
+                  dotHeight: 20,
+                  dotWidth: 20,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (currentPosition == 2) {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(builder: (context) => LoginPage()),
+                    // );
+                    Navigator.pushNamed(context, 'login_page');
+                  } else {
+                    _controller.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
+                  }
+                },
+                child: Icon(
+                  currentPosition == 2 ? Icons.done : Icons.arrow_forward_ios,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -53,11 +95,3 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 }
 
-const colors = [
-  Colors.red,
-  Colors.green,
-  Colors.greenAccent,
-  Colors.amberAccent,
-  Colors.blue,
-  Colors.amber,
-];
