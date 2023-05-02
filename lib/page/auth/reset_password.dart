@@ -32,16 +32,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 radius: 110,
               ),
             ),
-
             Text(
               'Masukkan email Anda untuk mengubah kata sandi.',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                
               ),
             ),
-
             SizedBox(height: 20.0),
             TextFormField(
               controller: _emailController,
@@ -50,7 +47,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  
                 ),
                 prefixIcon: Icon(Icons.email),
               ),
