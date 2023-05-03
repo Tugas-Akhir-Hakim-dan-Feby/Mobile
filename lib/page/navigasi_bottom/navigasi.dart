@@ -1,6 +1,6 @@
 import 'package:api_mobile/page/blog/blog.dart';
 import 'package:api_mobile/page/chat/chat.dart';
-import 'package:api_mobile/page/home/home.dart';
+import 'package:api_mobile/page/dashboard/dashboard.dart';
 import 'package:api_mobile/page/member/member.dart';
 import 'package:api_mobile/page/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _NavigasiPageState extends State<NavigasiPage> {
     // ),
   // ];
   final screens = [
-    const HomePage(),
+    const Dashboard(),
     BlogPage(),
     const MemberPage(),
     const ChatPage(),

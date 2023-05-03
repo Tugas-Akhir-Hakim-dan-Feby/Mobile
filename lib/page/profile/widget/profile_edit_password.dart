@@ -18,8 +18,26 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   bool _isLoading = false;
+    bool _isOldVisible = false;
+  bool _isNewVisible = false;
   String _errorMessage = '';
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isPasswordEightCharacters = false;
+  bool _hasPasswordOneNumber = false;
+
+  onPasswordChanged(String password) {
+    final numericRegex = RegExp(r'[0-9]');
+
+    setState(() {
+      _isPasswordEightCharacters = false;
+      if (password.length >= 8) _isPasswordEightCharacters = true;
+
+      _hasPasswordOneNumber = false;
+      if (numericRegex.hasMatch(password)) _hasPasswordOneNumber = true;
+    });
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +67,33 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
               children: [
                 SizedBox(height: 20.0),
                 TextFormField(
+                  onChanged: (password) =>
+                                        onPasswordChanged(password),
+                                    obscureText: _isOldVisible,
                   controller: _currentPasswordController,
-                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'password anda saat ini',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _isOldVisible = !_isOldVisible;
+                                          });
+                                        },
+                                        icon: _isOldVisible
+                                            ? const Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.grey,
+                                              ),
+          
+                                      ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -67,14 +104,33 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  onChanged: (password) =>
+                                        onPasswordChanged(password),
+                                    obscureText: _isNewVisible,
                   controller: _newPasswordController,
-                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password baru',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     prefixIcon: Icon(Icons.lock),
+                     suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _isNewVisible = !_isNewVisible;
+                                          });
+                                        },
+                                        icon: _isNewVisible
+                                            ? const Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.grey,
+                                              ),
+          
+                                      ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -88,14 +144,34 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  onChanged: (password) =>
+                                        onPasswordChanged(password),
+                                    obscureText: _isNewVisible,
                   controller: _confirmPasswordController,
-                  obscureText: true,
+                  
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     prefixIcon: Icon(Icons.lock),
+                     suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _isNewVisible = !_isNewVisible;
+                                          });
+                                        },
+                                        icon: _isNewVisible
+                                            ? const Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.grey,
+                                              ),
+          
+                                      ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {

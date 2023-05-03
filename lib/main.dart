@@ -2,7 +2,7 @@ import 'package:api_mobile/firebase_options.dart';
 import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/auth/register_page.dart';
 import 'package:api_mobile/page/auth/reset_password.dart';
-import 'package:api_mobile/page/home/home.dart';
+import 'package:api_mobile/page/dashboard/dashboard.dart';
 import 'package:api_mobile/page/navigasi_bottom/navigasi.dart';
 import 'package:api_mobile/page/profile/profile.dart';
 import 'package:api_mobile/page/profile/widget/certificate.dart';
@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
         'login_page': (context) => const LoginPage(),
         'register_page': (context) => const RegisterPage(),
         'splash_page': (context) => const SplashPage(),
-        ' _page': (context) => const ProfilePage(),
-        'home_page':(context) => const HomePage(),
+        'profile_page': (context) => const ProfilePage(),
+        'dashboard_page':(context) => const Dashboard(),
         'welcome_page': (context) => const WelcomePage(),
         // 'navigasi_page':(context) => const Navigasi(),
         'navigasi_page':(context) =>  const NavigasiPage(),
