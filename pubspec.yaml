@@ -63,6 +63,11 @@ dependencies:
   flutter_pw_validator: ^1.5.0
   flutter_launcher_icons: ^0.12.0
   icon_badge: ^1.0.0
+  cloud_firestore: ^4.7.0
+  firebase_auth: ^4.6.0
+  firebase_storage: ^11.2.0
+  image_picker: ^0.8.7+5
+  uuid: ^3.0.7
   # navbar end
 
 
@@ -99,6 +104,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/logo_api.png
+    - assets/images/awf.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

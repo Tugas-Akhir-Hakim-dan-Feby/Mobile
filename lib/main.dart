@@ -27,8 +27,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 // void main() => runApp(MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       title: 'Asosiasi Pengelasan Indonesia',
       routes: {
         // 'register_page': (context) => const RegisterPage(),
-        'login_page': (context) => const LoginPage(),
+        'login_page': (context) => LoginPage(),
         'register_page': (context) => const RegisterPage(),
         'splash_page': (context) => const SplashPage(),
         'profile_page': (context) => const ProfilePage(),
@@ -67,14 +67,11 @@ class MyApp extends StatelessWidget {
         'follow_us_page': (context) => const FollowUsPage(),
         'help_page': (context) => const HelpPage(),
         'reset_password_page': (context) => const ResetPasswordPage(),
-        
-        
-        
-        
       },
 
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        //  visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
       initialRoute:

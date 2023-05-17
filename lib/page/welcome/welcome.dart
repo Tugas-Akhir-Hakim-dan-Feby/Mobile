@@ -1,4 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/welcome/first_page.dart';
 import 'package:api_mobile/page/welcome/second_page.dart';
@@ -29,7 +30,7 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                height: 500,
+                height: 700,
                 child: PageView(
                   controller: _controller,
                   children: const [
@@ -111,13 +112,28 @@ class _WelcomePageState extends State<WelcomePage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: Text(
-                    'Lewati',
-                    style: TextStyle(
-                      color: Colors.white,
+                  child: ColorizeAnimatedTextKit(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'login_page');
+                    },
+                    text: ['Lewati'],
+                    textStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      color: Colors.white,
                     ),
+                    colors: [
+                      Colors.white,
+                      Colors.white,
+                      Colors.red,
+                      Colors.yellow,
+                      Colors.green,
+                      Colors.blue,
+                      Colors.purple,
+                    ],
+                    textAlign: TextAlign.center,
+                    repeatForever: true,
+                    speed: Duration(milliseconds: 500),
                   ),
                 ),
               ),

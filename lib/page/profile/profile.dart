@@ -1,5 +1,6 @@
 import 'package:api_mobile/auth/style_alert.dart';
 import 'package:api_mobile/components/theme/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_badge/icon_badge.dart';
@@ -14,6 +15,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -42,130 +44,125 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Row(
                     children: [
-                                        Column(
-                    children: [
-                      Container(
-                        width: 160,
-                        height: 160,
-                        decoration: const BoxDecoration(
-                            // shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    "http://propertiku.proyek.ti.polindra.ac.id/storage/app/public/image/huDgnXg7E4GVACHMXVvsdXtH1iWMCbG96boRmsrU.jpg"),
-                                fit: BoxFit.cover)),
+                      Column(
+                        children: [
+                          Container(
+                            width: 160,
+                            height: 160,
+                            decoration: const BoxDecoration(
+                                // shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "http://propertiku.proyek.ti.polindra.ac.id/storage/app/public/image/huDgnXg7E4GVACHMXVvsdXtH1iWMCbG96boRmsrU.jpg"),
+                                    fit: BoxFit.cover)),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: (size.width - 40) * 0.6,
+                            child: Column(
+                              children: const [
+                                Text(
+                                  "Dominic Toretto",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: mainFontColor),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Member Welder",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: black),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: (size.width - 40) * 0.6,
+                      Expanded(
                         child: Column(
-                          children: const [
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
                             Text(
-                              "Dominic Toretto",
+                              "\Dominic Maulana",
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                   color: mainFontColor),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
-                            Text(
-                              "Member Welder",
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: black),
+                            Column(
+                              children: const [
+                                Text(
+                                  "\Alan@gmail.com",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Column(
+                              children: const [
+                                Text(
+                                  "Alamat",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Container(
+                              width: 400,
+                              height: 1,
+                              color: black.withOpacity(0.3),
+                            ),
+                            Column(
+                              children: const [
+                                Text(
+                                  "0877676767689",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "Loan",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w100,
+                                      color: black),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       )
                     ],
                   ),
-                  
-                  
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "\Dominic Maulana",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: mainFontColor),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Column(
-                          children: const [
-                            Text(
-                              "\Alan@gmail.com",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                              height: 15,
-                            ),
-                        Column(
-                          children: const [
-                            Text(
-                              "Alamat",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                          ],
-                        ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                        Container(
-                          width: 400,
-                          height: 1,
-                          color: black.withOpacity(0.3),
-                        ),
-                        Column(
-                          children: const [
-                            Text(
-                              "0877676767689",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Loan",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: black),
-                            ),
-                          ],
-                        ),
-                      ],
-                      
-                    ),
-                  )
-                
-                    ],
-                  ),
 
                   InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                        context, 'edit_profile');
-                        },
+                    onTap: () {
+                      Navigator.pushNamed(context, 'edit_profile');
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: const [
@@ -178,19 +175,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Icon(
-                        // Icons.edit_square,
-                        Icons.edit_note_sharp, 
-                        color: Colors.grey,
-                        size: 35,
-                      ),
+                          // Icons.edit_square,
+                          Icons.edit_note_sharp,
+                          color: Colors.grey,
+                          size: 35,
+                        ),
                       ],
                     ),
                   ),
-                  
 
-
-                
-                
 //                 Container(
 //   decoration: BoxDecoration(
 //     border: Border.all(
@@ -278,33 +271,13 @@ class _ProfilePageState extends State<ProfilePage> {
 //     ],
 //   ),
 // ),
-
-                
                 ],
               ),
             ),
           ),
-          
-          
-          
-          
-          
-          
           const SizedBox(
             height: 10,
           ),
-          
-
-
-
-
-
-
-
-
-
-
-
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
             child: Row(
@@ -425,12 +398,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 // child: const Center(
                                 //     child: Icon(Icons.arrow_forward)),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'certificate_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, 'certificate_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -511,12 +486,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'member_profile_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, 'member_profile_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -597,12 +574,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'profile_edit_password_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, 'profile_edit_password_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -685,12 +664,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'terms_condition_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, 'terms_condition_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -771,12 +752,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'follow_us_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, 'follow_us_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -857,12 +840,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // shape: BoxShape.circle
                                 ),
                                 child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.black,
-                                    ), onPressed: () { 
-                                      Navigator.pushNamed(context, 'help_page');
-                                    },
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, 'help_page');
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -977,10 +961,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   color: Colors.white,
                                                   fontSize: 18),
                                             ),
-                                            onPressed: () => {
+                                            onPressed: () async => {
                                               SpUtil.clear(),
-                                              Navigator.pushReplacementNamed(
-                                                  context, "login_page"),
+                                              await _auth
+                                                  .signOut()
+                                                  .then((value) {
+                                                Navigator.pushReplacementNamed(
+                                                    context, "login_page");
+                                              })
                                             },
                                             gradient: LinearGradient(colors: [
                                               Color.fromRGBO(255, 21, 0, 1),
@@ -1011,7 +999,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           )
         ],
-      
       ),
     ));
   }

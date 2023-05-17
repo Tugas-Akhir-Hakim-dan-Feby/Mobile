@@ -1,36 +1,45 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class ThirdPage extends StatelessWidget {
-  const ThirdPage({super.key});
+  const ThirdPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
         child: Container(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(30),
-                child: Image.asset('assets/images/welder.png'),
+                padding: const EdgeInsets.only(top: 110.0, left: 30, right: 30, bottom: 0),
+                child: Image.asset('assets/images/iiw.png'),
               ),
-              const Center(
-                child: Text(
-                  'API',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              SizedBox(height: 50), // Menambah jarak antara gambar dan teks
+              Expanded(
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1, 0),
+                    end: Offset.zero,
+                  ).animate(CurvedAnimation(
+                    parent: AnimationController(
+                      vsync: ScaffoldMessenger.of(context),
+                      duration: const Duration(milliseconds: 500),
+                    )..forward(),
+                    curve: Curves.easeInOut,
+                  )),
+                  child: Text(
+                    'Institut Pengelasan Internasional adalah badan ilmiah dan teknik internasional untuk pengelasan, mematri dan teknologi terkait',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(69,181,222,1.000)
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Center(
-                child: Text(
-                  'asosiasi pengelasan indonesia',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              )
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:api_mobile/page/Screens/HomeScreen.dart';
 import 'package:api_mobile/page/blog/blog.dart';
 import 'package:api_mobile/page/chat/chat.dart';
 import 'package:api_mobile/page/dashboard/dashboard.dart';
@@ -43,7 +44,7 @@ class _NavigasiPageState extends State<NavigasiPage> {
     const Dashboard(),
     BlogPage(),
     const MemberPage(),
-    const ChatPage(),
+    HomeScreen(),
     const ProfilePage()
   ];
 

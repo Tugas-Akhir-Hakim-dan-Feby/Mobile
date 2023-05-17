@@ -14,12 +14,11 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          title: Text('Halaman Syarat & Ketentuan'),
-          
-        ),
-        body: Center(
-          child: Text('page Buat Syarat & Ketentuan'),
-        ),
+        title: Text('Halaman Syarat & Ketentuan'),
+      ),
+      body: Center(
+        child: Text('page Buat Syarat & Ketentuan'),
+      ),
     );
   }
 }

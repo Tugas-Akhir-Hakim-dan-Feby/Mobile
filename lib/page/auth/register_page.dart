@@ -1,11 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/connection/app_config.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
@@ -40,11 +44,11 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     // ignore: no_leading_underscores_for_local_identifiers
-    Future _doRegister() async {
+   Future _doRegister() async {
       String name = txtUsername.text;
       String email = txtEmail.text;
-      // ignore: unused_local_variable
       String password = txtPassword.text;
+      // ignore: unused_local_variable
       if (name.isEmpty || email.isEmpty) {
         Alert(
                 context: context,
@@ -62,20 +66,49 @@ class _RegisterPageState extends State<RegisterPage> {
         hideValue: true,
         completed: Completed(),
       );
-      final response = await http.post(Uri.parse(AppConfig.getUrl()), body: {
+      // final response = await http.post(Uri.parse(AppConfig.getUrl()), body: {
+                final response = await http.post(Uri.parse("https://develop-ta.berobatplus.shop/api/v1/auth/register"), body: {
         'name': name,
         'email': email,
+        'password': password,
+        'retype_password': password,
       }, headers: {
         'Accept': 'application/json'
       });
 
       progressDialog.close();
+      print(response.body);
       if (response.statusCode == 201) {
-        // ignore: use_build_context_synchronously
-        Alert(
+        final FirebaseAuth _auth = FirebaseAuth.instance;
+final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+  email: email,
+  password: password,
+);
+
+
+
+if (userCredential.user != null){
+// create user data in firebase
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference usersRef = _firestore.collection('users');
+  final userId = userCredential.user!.uid;
+   final userData = {
+    'email': email,
+    'name': name,
+    
+    "uid": _auth.currentUser!.uid,
+    'createdAt': DateTime.now(),
+  };
+  await usersRef.doc(userId).set(userData);
+
+  // Update display name
+  await userCredential.user!.updateDisplayName(name);
+
+  // Show alert message
+  Alert(
             context: context,
             title: "Cek Email Anda",
-            desc: "Cek Pesan Email Anda untuk Membuat Password",
+            desc: "Cek Pesan Email Anda untuk Verifikasi",
             alertAnimation: fadeAlertAnimation,
             image: Image.asset("assets/images/email.png"),
             buttons: [
@@ -88,6 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
               )
             ]).show();
       } else if (response.statusCode == 400) {
+        print(response.statusCode);
         // ignore: use_build_context_synchronously
         Alert(
             context: context,
@@ -113,6 +147,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 type: AlertType.error)
             .show();
       }
+};
+
     }
 
     final deviceHeight = MediaQuery.of(context).size.height;
@@ -120,6 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
+        
         child: Column(
           children: [
             Container(
@@ -227,6 +264,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       .withOpacity(0.4),
                                 ),
                               ),
+                            
                             ),
                           ),
                           SizedBox(
@@ -466,6 +504,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ],
         ),
       ),
+    
     );
   }
 
