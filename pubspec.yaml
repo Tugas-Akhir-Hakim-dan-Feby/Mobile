@@ -41,7 +41,7 @@ dependencies:
   rflutter_alert: ^2.0.4
   http: ^0.13.5
   datetime_picker_formfield: ^2.0.1
-  google_fonts: ^4.0.3
+  google_fonts: ^4.0.4
   carousel_slider: ^4.2.1
   flutter_svg: ^2.0.1
   sn_progress_dialog: ^1.1.3
@@ -56,6 +56,9 @@ dependencies:
   get: ^4.6.5
   smooth_page_indicator: ^1.0.1
 
+  # search dashboard icon
+  
+
   # navbar
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.1
@@ -68,6 +71,8 @@ dependencies:
   firebase_storage: ^11.2.0
   image_picker: ^0.8.7+5
   uuid: ^3.0.7
+  dio: ^5.1.2
+  iconsax: ^0.0.8
   # navbar end
 
 
