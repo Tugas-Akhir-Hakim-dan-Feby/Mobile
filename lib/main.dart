@@ -11,6 +11,7 @@ import 'package:api_mobile/page/profile/widget/follow_us.dart';
 import 'package:api_mobile/page/profile/widget/help.dart';
 import 'package:api_mobile/page/profile/widget/member_profile.dart';
 import 'package:api_mobile/page/profile/widget/profile_edit_password.dart';
+import 'package:api_mobile/page/profile/widget/term_individu_member.dart';
 import 'package:api_mobile/page/profile/widget/terms_page.dart';
 import 'package:api_mobile/page/splash/splash.dart';
 import 'package:api_mobile/page/welcome/welcome.dart';
@@ -23,7 +24,7 @@ import 'package:sp_util/sp_util.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
-
+  
 // void main() => runApp(MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
         'follow_us_page': (context) => const FollowUsPage(),
         'help_page': (context) => const HelpPage(),
         'reset_password_page': (context) => const ResetPasswordPage(),
+        'term_individual_page': (context) => const IndividualMemberRequirements(),
       },
 
       theme: ThemeData(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({super.key});
@@ -13,10 +12,10 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          title: Text('Halaman Bantuan'),
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+          title: const Text('Halaman Bantuan'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('page Buat Helping'),
         ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MemberProfilePage extends StatefulWidget {
   const MemberProfilePage({super.key});
@@ -13,11 +12,11 @@ class _MemberProfilePageState extends State<MemberProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          title: Text('Halaman Keanggotaan'),
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+          title: const Text('Halaman Keanggotaan'),
           
         ),
-        body: Center(
+        body: const Center(
           child: Text('page Buat Membership'),
         ),
     );

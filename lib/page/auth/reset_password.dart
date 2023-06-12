@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, avoid_print, unused_local_variable, duplicate_ignore, deprecated_member_use
+
 import 'package:api_mobile/auth/style_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
@@ -104,31 +106,31 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reset Password'),
-        backgroundColor: Color.fromARGB(255, 244, 17, 17),
+        title: const Text('Reset Password'),
+        backgroundColor: const Color.fromARGB(255, 244, 17, 17),
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 20.0),
-            Align(
+            const SizedBox(height: 20.0),
+            const Align(
               alignment: Alignment.topCenter,
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/images/logo_api.jpg'),
                 radius: 110,
               ),
             ),
-            Text(
+            const Text(
               'Masukkan email Anda untuk mengubah kata sandi.',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Form(
               key: _formKey,
               child: TextFormField(
@@ -186,7 +188,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             //     prefixIcon: Icon(Icons.email),
             //   ),
             // ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -194,9 +196,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 244, 17, 17),
+                primary: const Color.fromARGB(255, 244, 17, 17),
               ),
-              child: Text('Ubah Kata Sandi'),
+              child: const Text('Ubah Kata Sandi'),
             ),
           ],
         ),

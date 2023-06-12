@@ -1,10 +1,7 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:api_mobile/page/auth/login_page.dart';
 import 'package:api_mobile/page/welcome/first_page.dart';
 import 'package:api_mobile/page/welcome/second_page.dart';
 import 'package:api_mobile/page/welcome/third_page.dart';
-import 'package:api_mobile/page/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -53,7 +50,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut),
                     icon: currentPosition == 0
-                        ? SizedBox(
+                        ? const SizedBox(
                             width: 24,
                             height: 24,
                             child: Icon(
@@ -61,15 +58,15 @@ class _WelcomePageState extends State<WelcomePage> {
                               color: Colors.white,
                             ),
                           )
-                        : Icon(Icons.arrow_back_ios),
+                        : const Icon(Icons.arrow_back_ios),
                   ),
                   SmoothPageIndicator(
                     controller: _controller,
                     count: 3,
                     effect: SlideEffect(
-                      activeDotColor: Color.fromARGB(255, 255, 0, 0),
+                      activeDotColor: const Color.fromARGB(255, 255, 0, 0),
                       dotColor:
-                          Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
+                          const Color.fromARGB(255, 120, 105, 110).withOpacity(0.5),
                       dotHeight: 20,
                       dotWidth: 20,
                     ),
@@ -108,21 +105,22 @@ class _WelcomePageState extends State<WelcomePage> {
                 width: 75,
                 height: 35,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 0, 0),
+                  color: const Color.fromARGB(255, 255, 0, 0),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
+                  // ignore: deprecated_member_use
                   child: ColorizeAnimatedTextKit(
                     onTap: () {
                       Navigator.pushNamed(context, 'login_page');
                     },
-                    text: ['Lewati'],
-                    textStyle: TextStyle(
+                    text: const ['Lewati'],
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: Colors.white,
                     ),
-                    colors: [
+                    colors: const [
                       Colors.white,
                       Colors.white,
                       Colors.red,
@@ -133,7 +131,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     ],
                     textAlign: TextAlign.center,
                     repeatForever: true,
-                    speed: Duration(milliseconds: 500),
+                    speed: const Duration(milliseconds: 500),
                   ),
                 ),
               ),

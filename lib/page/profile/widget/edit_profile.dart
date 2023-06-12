@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -13,11 +12,11 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          title: Text('Edit Profile'),
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+          title: const Text('Edit Profile'),
           
         ),
-        body: Center(
+        body: const Center(
           child: Text('page Buat edit'),
         ),
     );

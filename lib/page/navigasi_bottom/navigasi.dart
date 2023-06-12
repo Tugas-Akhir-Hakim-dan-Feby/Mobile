@@ -1,6 +1,5 @@
 import 'package:api_mobile/page/Screens/HomeScreen.dart';
-import 'package:api_mobile/page/blog/blog.dart';
-import 'package:api_mobile/page/chat/chat.dart';
+
 import 'package:api_mobile/page/dashboard/dashboard.dart';
 import 'package:api_mobile/page/member/member.dart';
 import 'package:api_mobile/page/profile/profile.dart';
@@ -41,8 +40,8 @@ class _NavigasiPageState extends State<NavigasiPage> {
     // ),
   // ];
   final screens = [
-    const Dashboard(),
-    BlogPage(),
+    Dashboard(),
+    // BlogPage(),
     const MemberPage(),
     HomeScreen(),
     const ProfilePage()
@@ -85,10 +84,10 @@ class _NavigasiPageState extends State<NavigasiPage> {
                   icon: LineIcons.home,
                   text: 'Beranda',
                 ),
-                GButton(
-                  icon: LineIcons.heart,
-                  text: 'Blog',
-                ),
+                // GButton(
+                //   icon: LineIcons.heart,
+                //   text: 'Blog',
+                // ),
                 GButton(
                   icon: LineIcons.moneyCheck,
                   text: 'Member',

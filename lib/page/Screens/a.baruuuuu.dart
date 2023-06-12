@@ -3,26 +3,41 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:uuid/uuid.dart';
-// import 'package:video_player/video_player.dart';
+import 'package:video_player/video_player.dart';
 
-class ChatRoom extends StatelessWidget {
+class ChatRoom extends StatefulWidget {
   final Map<String, dynamic> userMap;
   final String chatRoomId;
 
   ChatRoom({required this.chatRoomId, required this.userMap});
 
+  @override
+  _ChatRoomState createState() => _ChatRoomState();
+}
+
+class _ChatRoomState extends State<ChatRoom> with WidgetsBindingObserver {
   final TextEditingController _message = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _scrollController = ScrollController();
 
   File? imageFile;
+  File? videoFile;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
 
   Future getImage() async {
     ImagePicker _picker = ImagePicker();
@@ -41,7 +56,7 @@ class ChatRoom extends StatelessWidget {
 
     await _firestore
         .collection('chatroom')
-        .doc(chatRoomId)
+        .doc(widget.chatRoomId)
         .collection('chats')
         .doc(fileName)
         .set({
@@ -57,7 +72,7 @@ class ChatRoom extends StatelessWidget {
     var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
       await _firestore
           .collection('chatroom')
-          .doc(chatRoomId)
+          .doc(widget.chatRoomId)
           .collection('chats')
           .doc(fileName)
           .delete();
@@ -70,7 +85,7 @@ class ChatRoom extends StatelessWidget {
 
       await _firestore
           .collection('chatroom')
-          .doc(chatRoomId)
+          .doc(widget.chatRoomId)
           .collection('chats')
           .doc(fileName)
           .update({"message": imageUrl});
@@ -78,8 +93,6 @@ class ChatRoom extends StatelessWidget {
       print(imageUrl);
     }
   }
-
-  File? videoFile;
 
   Future getVideo() async {
     ImagePicker _picker = ImagePicker();
@@ -98,7 +111,7 @@ class ChatRoom extends StatelessWidget {
 
     await _firestore
         .collection('chatroom')
-        .doc(chatRoomId)
+        .doc(widget.chatRoomId)
         .collection('chats')
         .doc(fileName)
         .set({
@@ -114,7 +127,7 @@ class ChatRoom extends StatelessWidget {
     var uploadTask = await ref.putFile(videoFile!).catchError((error) async {
       await _firestore
           .collection('chatroom')
-          .doc(chatRoomId)
+          .doc(widget.chatRoomId)
           .collection('chats')
           .doc(fileName)
           .delete();
@@ -127,7 +140,7 @@ class ChatRoom extends StatelessWidget {
 
       await _firestore
           .collection('chatroom')
-          .doc(chatRoomId)
+          .doc(widget.chatRoomId)
           .collection('chats')
           .doc(fileName)
           .update({"message": videoUrl});
@@ -148,7 +161,7 @@ class ChatRoom extends StatelessWidget {
       _message.clear();
       await _firestore
           .collection('chatroom')
-          .doc(chatRoomId)
+          .doc(widget.chatRoomId)
           .collection('chats')
           .add(messages);
     } else {
@@ -176,32 +189,28 @@ class ChatRoom extends StatelessWidget {
   void _scrollToBottom() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeIn,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-// print("hiiiiii");
-// print((userMap['uid']));
     return Scaffold(
       appBar: AppBar(
         title: StreamBuilder<DocumentSnapshot>(
-          stream:
-              _firestore.collection("users").doc(userMap['uid']).snapshots(),
+          stream: _firestore
+              .collection("users")
+              .doc(widget.userMap['uid'])
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.data != null) {
               return Container(
                 child: Column(
                   children: [
-                    Text(userMap['name']),
-                    Text(userMap['status'], style: TextStyle(fontSize: 14)),
-                    // Text(
-                    //   snapshot.data!['status'],
-                    //   style: TextStyle(fontSize: 14),
-                    // ),
+                    Text(widget.userMap['name']),
+                    Text(widget.userMap['status'], style: TextStyle(fontSize: 14)),
                   ],
                 ),
               );
@@ -220,7 +229,7 @@ class ChatRoom extends StatelessWidget {
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection('chatroom')
-                    .doc(chatRoomId)
+                    .doc(widget.chatRoomId)
                     .collection('chats')
                     .orderBy("time", descending: false)
                     .snapshots(),
@@ -234,8 +243,9 @@ class ChatRoom extends StatelessWidget {
                       controller: _scrollController,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        Map<String, dynamic> map = snapshot.data!.docs[index]
-                            .data() as Map<String, dynamic>;
+                        Map<String, dynamic> map =
+                            snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
                         return messages(size, map, context);
                       },
                     );
@@ -245,6 +255,7 @@ class ChatRoom extends StatelessWidget {
                 },
               ),
             ),
+            
             Container(
               height: size.height / 10,
               width: size.width,
@@ -317,18 +328,24 @@ class ChatRoom extends StatelessWidget {
               ),
             ),
           )
-        : Container(
-            height: size.height / 2.5,
-            width: size.width,
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-            alignment: map['sendby'] == _auth.currentUser!.displayName
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            child: InkWell(
-              onTap: () {
-                // if (map['message'].endsWith(".mp4")) {
-                print("map=> messsage ${map['message']}");
-                print(map['message']);
+        :  Container(
+          height: map['type'] == 'img' ? size.height / 2.5 : size.height / 4,
+          width: size.width,
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          alignment: map['sendby'] == _auth.currentUser!.displayName
+              ? Alignment.centerRight
+              : Alignment.centerLeft,
+          child: InkWell(
+            onTap: () {
+              if (map['type'] == 'img') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ShowImage(
+                      imageUrl: map['message'],
+                    ),
+                  ),
+                );
+              } else if (map['type'] == 'video') {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => ShowVideo(
@@ -336,34 +353,18 @@ class ChatRoom extends StatelessWidget {
                     ),
                   ),
                 );
-                // } else {
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (_) => ShowImage(
-                //         imageUrl: map['message'],
-                //       ),
-                //     ),
-                //   );
-                // }
-              },
-              child: Container(
-                height: size.height / 2.5,
-                width: size.width / 2,
-                decoration: BoxDecoration(border: Border.all()),
-                alignment: map['message'] != "" ? null : Alignment.center,
-                child: map['message'] != "" && !map['message'].endsWith(".mp4")
-                    ? Image.network(
-                        map['message'],
-                        fit: BoxFit.cover,
-                      )
-                    : map['message'] != "" && map['message'].endsWith(".mp4")
-                        ? Icon(Icons.play_circle_outline, size: 60)
-                        : CircularProgressIndicator(),
-              ),
-            ),
-          );
-  }
+              }
+            },
+            child: map['type'] == 'img'
+                ? Image.network(
+                    map['message'],
+                    fit: BoxFit.cover,
+                  )
+                : VideoThumbnail(videoUrl: map['message']),
+          ),
+        );
 }
+  }
 
 class ShowImage extends StatelessWidget {
   final String imageUrl;
@@ -388,22 +389,140 @@ class ShowImage extends StatelessWidget {
 class ShowVideo extends StatelessWidget {
   final String videoUrl;
   const ShowVideo({required this.videoUrl, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        height: size.height,
-        width: size.width,
-        child: Center(
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            // child: VideoPlayer(
-            //   VideoPlayerController.network(videoUrl)..initialize(),
-            // ),
-          ),
-        ),
-      ),
+      body: VideoScreen(videoUrl: videoUrl),
+    );
+  }
+}
+
+class VideoScreen extends StatefulWidget {
+  final String videoUrl;
+  VideoScreen({required this.videoUrl});
+
+  @override
+  _VideoScreenState createState() => _VideoScreenState();
+}
+
+class _VideoScreenState extends State<VideoScreen> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    // SystemChrome.setEnabledSystemUIOverlays([]); // Hide system overlays
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values); // Enable system overlays
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    if (_controller.value.isPlaying) {
+                      _controller.pause();
+                    } else {
+                      _controller.play();
+                    }
+                  });
+                },
+                child: Icon(
+                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+}
+
+
+
+class VideoThumbnail extends StatefulWidget {
+  final String videoUrl;
+
+  VideoThumbnail({required this.videoUrl});
+
+  @override
+  _VideoThumbnailState createState() => _VideoThumbnailState();
+}
+
+class _VideoThumbnailState extends State<VideoThumbnail> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    if (_controller.value.isPlaying) {
+                      _controller.pause();
+                    } else {
+                      _controller.play();
+                    }
+                  });
+                },
+                child: Icon(
+                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }

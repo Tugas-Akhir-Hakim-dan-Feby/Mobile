@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: unnecessary_import
 import 'package:flutter/widgets.dart';
 
 class Certificate extends StatefulWidget {
@@ -13,11 +14,11 @@ class _CertificateState extends State<Certificate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          title: Text('Page Sertifikat'),
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+          title: const Text('Page Sertifikat'),
           
         ),
-        body: Center(
+        body: const Center(
           child: Text('Halaman Buat Sertifikat'),
         ),
     );

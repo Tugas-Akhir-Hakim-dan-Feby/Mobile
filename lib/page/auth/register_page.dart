@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, duplicate_ignore, use_build_context_synchronously
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:api_mobile/auth/style_alert.dart';
+import 'package:api_mobile/components/constants.dart';
 import 'package:api_mobile/connection/app_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
@@ -9,7 +13,6 @@ import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -18,7 +21,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
@@ -44,19 +46,31 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     // ignore: no_leading_underscores_for_local_identifiers
-   Future _doRegister() async {
+    Future _doRegister() async {
       String name = txtUsername.text;
       String email = txtEmail.text;
       String password = txtPassword.text;
       // ignore: unused_local_variable
-      if (name.isEmpty || email.isEmpty) {
-        Alert(
+              if (name.isEmpty || email.isEmpty) {
+            showDialog(
                 context: context,
-                title: "Data tidak boleh kosong",
-                type: AlertType.error)
-            .show();
-        return;
-      }
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Data tidak boleh kosong"),
+                    actions: [
+                      TextButton(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            return;
+        }
+
       ProgressDialog progressDialog = ProgressDialog(context: context);
       progressDialog.show(
         msg: "Memuat......",
@@ -66,8 +80,9 @@ class _RegisterPageState extends State<RegisterPage> {
         hideValue: true,
         completed: Completed(),
       );
-      // final response = await http.post(Uri.parse(AppConfig.getUrl()), body: {
-                final response = await http.post(Uri.parse("https://develop-ta.berobatplus.shop/api/v1/auth/register"), body: {
+      final response = await http
+          .post(Uri.parse('${AppConfig.getUrl()}auth/register'), body: {
+        // final response = await http.post(Uri.parse("https://develop-ta.berobatplus.shop/api/v1/auth/register"), body: {
         'name': name,
         'email': email,
         'password': password,
@@ -80,75 +95,74 @@ class _RegisterPageState extends State<RegisterPage> {
       print(response.body);
       if (response.statusCode == 201) {
         final FirebaseAuth _auth = FirebaseAuth.instance;
-final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-  email: email,
-  password: password,
-);
+        final UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
 
-
-
-if (userCredential.user != null){
+        if (userCredential.user != null) {
 // create user data in firebase
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final CollectionReference usersRef = _firestore.collection('users');
-  final userId = userCredential.user!.uid;
-   final userData = {
-    'email': email,
-    'name': name,
-    
-    "uid": _auth.currentUser!.uid,
-    'createdAt': DateTime.now(),
-  };
-  await usersRef.doc(userId).set(userData);
+          final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+          final CollectionReference usersRef = _firestore.collection('users');
+          final userId = userCredential.user!.uid;
+          final userData = {
+            'email': email,
+            'name': name,
+            // "uid": _auth.currentUser!.uid,
+            'createdAt': DateTime.now(),
+          };
+          await usersRef.doc(userId).set(userData);
 
-  // Update display name
-  await userCredential.user!.updateDisplayName(name);
+          // Update display name
+          await userCredential.user!.updateDisplayName(name);
 
-  // Show alert message
-  Alert(
-            context: context,
-            title: "Cek Email Anda",
-            desc: "Cek Pesan Email Anda untuk Verifikasi",
-            alertAnimation: fadeAlertAnimation,
-            image: Image.asset("assets/images/email.png"),
-            buttons: [
-              DialogButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]).show();
-      } else if (response.statusCode == 400) {
-        print(response.statusCode);
-        // ignore: use_build_context_synchronously
-        Alert(
-            context: context,
-            title: "Email Sudah Terdaftar",
-            type: AlertType.warning,
-            buttons: [
-              DialogButton(
-                child: const Text(
-                  "Ganti Email",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]).show();
-      } else {
-        // ignore: use_build_context_synchronously
-        Alert(
-                context: context,
-                title: "Data Gagal disimpan",
-                type: AlertType.error)
-            .show();
+          // Show alert message
+          Alert(
+              context: context,
+              title: "Cek Email Anda",
+              desc: "Cek Pesan Email Anda untuk Verifikasi",
+              alertAnimation: fadeAlertAnimation,
+              image: Image.asset("assets/images/email.png"),
+              buttons: [
+                DialogButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                )
+              ]).show();
+        } else if (response.statusCode == 422) {
+          print(response.statusCode);
+          // ignore: use_build_context_synchronously
+          Alert(
+              context: context,
+              title: "Email Sudah Terdaftar",
+              type: AlertType.warning,
+              buttons: [
+                DialogButton(
+                  child: const Text(
+                    "Ganti Email",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                )
+              ]).show();
+        } else {
+          // ignore: use_build_context_synchronously
+          Alert(
+                  context: context,
+                  title: "Data Gagal disimpan",
+                  type: AlertType.error)
+              .show();
+        }
+// ignore: empty_statements
       }
-};
-
+      ;
     }
 
     final deviceHeight = MediaQuery.of(context).size.height;
@@ -156,7 +170,6 @@ if (userCredential.user != null){
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        
         child: Column(
           children: [
             Container(
@@ -264,7 +277,6 @@ if (userCredential.user != null){
                                       .withOpacity(0.4),
                                 ),
                               ),
-                            
                             ),
                           ),
                           SizedBox(
@@ -282,9 +294,16 @@ if (userCredential.user != null){
                                         onPasswordChanged(password),
                                     obscureText: _isVisible,
                                     validator: (value) {
-                                      // Check if this field is empty
                                       if (value == null || value.isEmpty) {
                                         return 'Kata Sandi harus di isi';
+                                      }
+                                      // Check if the password meets the minimum length requirement
+                                      if (value.length < 8) {
+                                        return 'Kata Sandi minimal 8 karakter';
+                                      }
+                                      // Check if the password contains at least one number
+                                      if (!RegExp(r'\d').hasMatch(value)) {
+                                        return 'Kata Sandi harus mengandung setidaknya satu angka';
                                       }
                                       return null;
                                     },
@@ -330,7 +349,8 @@ if (userCredential.user != null){
                                 Row(
                                   children: [
                                     AnimatedContainer(
-                                      duration: const Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
@@ -355,7 +375,7 @@ if (userCredential.user != null){
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    const Text("Contains at least 8 characters")
+                                    const Text("Password minimal 8 karakter")
                                   ],
                                 ),
                                 const SizedBox(
@@ -364,7 +384,8 @@ if (userCredential.user != null){
                                 Row(
                                   children: [
                                     AnimatedContainer(
-                                      duration: const Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
@@ -389,7 +410,7 @@ if (userCredential.user != null){
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    const Text("Contains at least 1 number")
+                                    const Text("Mengandung 1 angka /  karakter unik")
                                   ],
                                 ),
                                 // SizedBox(
@@ -427,7 +448,8 @@ if (userCredential.user != null){
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                  Navigator.pushReplacementNamed(context, 'reset_password_page');
+                                    Navigator.pushReplacementNamed(
+                                        context, 'reset_password_page');
                                   },
                                   child: const Text(
                                     'Lupa Kata Sandi',
@@ -503,49 +525,6 @@ if (userCredential.user != null){
             ),
           ],
         ),
-      ),
-    
-    );
-  }
-
-  Widget colorizeAnimation() {
-    const colorizeColors = [
-      Color.fromARGB(255, 255, 17, 0),
-      Color.fromARGB(255, 242, 36, 36),
-      Color.fromARGB(255, 248, 52, 52),
-      Color.fromARGB(255, 244, 144, 144),
-    ];
-
-    const colorizeTextStyle = TextStyle(
-      fontSize: 33.0,
-      fontWeight: FontWeight.bold,
-    );
-    return SizedBox(
-      width: double.infinity,
-      child: Center(
-        child: AnimatedTextKit(
-          animatedTexts: [
-            ColorizeAnimatedText(
-              'API',
-              textStyle: colorizeTextStyle,
-              colors: colorizeColors,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget fadeAlertAnimation(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return Align(
-      child: FadeTransition(
-        opacity: animation,
-        child: child,
       ),
     );
   }

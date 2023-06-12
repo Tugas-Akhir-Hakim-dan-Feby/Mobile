@@ -1,5 +1,7 @@
 // import 'package:chat/Screens/HomeScreen.dart';
 // import 'package:chat/group_chats/add_members.dart';
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, use_build_context_synchronously, avoid_unnecessary_containers
+
 import 'package:api_mobile/page/Screens/HomeScreen.dart';
 import 'package:api_mobile/page/group_chats/add_members.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,8 +21,8 @@ class _GroupInfoState extends State<GroupInfo> {
   List membersList = [];
   bool isLoading = true;
 
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -86,7 +88,7 @@ class _GroupInfoState extends State<GroupInfo> {
               return AlertDialog(
                 content: ListTile(
                   onTap: () => removeMembers(index),
-                  title: Text("Remove This Member"),
+                  title: const Text("Remove This Member"),
                 ),
               );
             });
@@ -135,17 +137,17 @@ class _GroupInfoState extends State<GroupInfo> {
                 height: size.height,
                 width: size.width,
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               )
             : SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: BackButton(),
                     ),
-                    Container(
+                    SizedBox(
                       height: size.height / 8,
                       width: size.width / 1.1,
                       child: Row(
@@ -153,7 +155,7 @@ class _GroupInfoState extends State<GroupInfo> {
                           Container(
                             height: size.height / 11,
                             width: size.height / 11,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey,
                             ),
@@ -188,7 +190,7 @@ class _GroupInfoState extends State<GroupInfo> {
                       height: size.height / 20,
                     ),
 
-                    Container(
+                    SizedBox(
                       width: size.width / 1.1,
                       child: Text(
                         "${membersList.length} Members",
@@ -216,7 +218,7 @@ class _GroupInfoState extends State<GroupInfo> {
                                 ),
                               ),
                             ),
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.add,
                             ),
                             title: Text(
@@ -227,17 +229,17 @@ class _GroupInfoState extends State<GroupInfo> {
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
 
                     Flexible(
                       child: ListView.builder(
                         itemCount: membersList.length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () => showDialogBox(index),
-                            leading: Icon(Icons.account_circle),
+                            leading: const Icon(Icons.account_circle),
                             title: Text(
                               membersList[index]['name'],
                               style: TextStyle(
@@ -255,7 +257,7 @@ class _GroupInfoState extends State<GroupInfo> {
 
                     ListTile(
                       onTap: onLeaveGroup,
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.logout,
                         color: Colors.redAccent,
                       ),

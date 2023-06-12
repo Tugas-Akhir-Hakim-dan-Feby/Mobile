@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "103908478055",
-    "firebase_url": "https://chat-app-new-a9b08-default-rtdb.firebaseio.com",
-    "project_id": "chat-app-new-a9b08",
-    "storage_bucket": "chat-app-new-a9b08.appspot.com"
+    "project_number": "873231799080",
+    "firebase_url": "https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com",
+    "project_id": "asosiasi-pengelasan-indonesia",
+    "storage_bucket": "asosiasi-pengelasan-indonesia.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:103908478055:android:c5c490e4ab35631ecc58c2",
+        "mobilesdk_app_id": "1:873231799080:android:bf7782be96b5410b61b61d",
         "android_client_info": {
           "package_name": "com.example.api_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "103908478055-kh8nr5cp25t2hl6rpa6tq8rgbvvqrecg.apps.googleusercontent.com",
+          "client_id": "873231799080-vk3d0f55o0d0bnotderc6coc4idsrdp8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA0CS0P8fH6sn1E_YMxDiZBqhOFgPbV-aA"
+          "current_key": "AIzaSyBI-PYr-5EfGxjLMi5_6pdry4TNzlBMCiY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "103908478055-kh8nr5cp25t2hl6rpa6tq8rgbvvqrecg.apps.googleusercontent.com",
+              "client_id": "873231799080-vk3d0f55o0d0bnotderc6coc4idsrdp8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

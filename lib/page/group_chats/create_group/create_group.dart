@@ -1,4 +1,6 @@
 // import 'package:api_mobile/Screens/HomeScreen.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:api_mobile/page/Screens/HomeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +27,7 @@ class _CreateGroupState extends State<CreateGroup> {
       isLoading = true;
     });
 
-    String groupId = Uuid().v1();
+    String groupId = const Uuid().v1();
 
     await _firestore.collection('groups').doc(groupId).set({
       "members": widget.membersList,
@@ -61,14 +63,14 @@ class _CreateGroupState extends State<CreateGroup> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Group Name"),
+        title: const Text("Group Name"),
       ),
       body: isLoading
           ? Container(
               height: size.height,
               width: size.width,
               alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             )
           : Column(
               children: [
@@ -79,7 +81,7 @@ class _CreateGroupState extends State<CreateGroup> {
                   height: size.height / 14,
                   width: size.width,
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     height: size.height / 14,
                     width: size.width / 1.15,
                     child: TextField(
@@ -98,7 +100,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
                 ElevatedButton(
                   onPressed: createGroup,
-                  child: Text("Create Group"),
+                  child: const Text("Create Group"),
                 ),
               ],
             ),

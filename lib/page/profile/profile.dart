@@ -1,32 +1,77 @@
+// ignore_for_file: sort_child_properties_last, duplicate_ignore, unnecessary_string_escapes
+
+import 'dart:convert';
+
 import 'package:api_mobile/auth/style_alert.dart';
 import 'package:api_mobile/components/theme/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_badge/icon_badge.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<String> _fetchProfile() async {
+    final token = SpUtil.getString('token');
+
+    if (token == null) {
+      throw Exception('Token tidak ditemukan');
+    }
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    final response = await http.get(
+      Uri.parse('https://develop-ta.berobatplus.shop/api/v1/user/me'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final user = jsonResponse['user'];
+      final document = user['document'];
+      final documentPath = document['document_path'];
+      SpUtil.putString("save_image", documentPath);
+      // String? savedImagePath = SpUtil.getString("save_image");
+
+      print(documentPath);
+
+      return documentPath;
+    } else {
+      throw Exception('Gagal memuat data SVG');
+    }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String getCurrentDateTime() {
+    var now = DateTime.now();
+    var formatter = DateFormat('MMMM dd, yyyy ');
+    return formatter.format(now);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin:
-                const EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
-            decoration: BoxDecoration(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                  top: 25, left: 25, right: 25, bottom: 10),
+              decoration: BoxDecoration(
                 color: white,
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
@@ -36,300 +81,269 @@ class _ProfilePageState extends State<ProfilePage> {
                     blurRadius: 3,
                     // changes position of shadow
                   ),
-                ]),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, bottom: 25, right: 00, left: 0),
-              child: Column(
+                ],
+              ),
+              child: Stack(
                 children: [
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: 160,
-                            height: 160,
-                            decoration: const BoxDecoration(
-                                // shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        "http://propertiku.proyek.ti.polindra.ac.id/storage/app/public/image/huDgnXg7E4GVACHMXVvsdXtH1iWMCbG96boRmsrU.jpg"),
-                                    fit: BoxFit.cover)),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: (size.width - 40) * 0.6,
-                            child: Column(
-                              children: const [
-                                Text(
-                                  "Dominic Toretto",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: mainFontColor),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20, bottom: 25, right: 5, left: 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  width: 160,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                    // shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        "https://develop-ta.berobatplus.shop/api/v1/user/me",
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: FutureBuilder<String>(
+                                    future: _fetchProfile(),
+                                    // Mengambil SVG dari API
+                                    builder: (context, snapshot) {
+  if (snapshot.connectionState == ConnectionState.waiting) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: 160,
+        height: 160,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(0), // Changed to square shape
+        ),
+      ),
+    );
+  } else if (snapshot.hasData) {
+    return CachedNetworkImage(
+      imageUrl: snapshot.data!,
+      fit: BoxFit.cover,
+    );
+  } else if (snapshot.hasError) {
+    return Image.asset('assets/user.png');
+  } else {
+    return Image.asset('assets/user.png');
+  }
+},
+
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  "Member Welder",
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: black),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              "\Dominic Maulana",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  "\Alan@gmail.com",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: mainFontColor),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  "Alamat",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: mainFontColor),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              width: 400,
-                              height: 1,
-                              color: black.withOpacity(0.3),
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  "0877676767689",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: mainFontColor),
-                                ),
                                 SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Loan",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w100,
-                                      color: black),
-                                ),
+                                  width: (size.width - 40) * 0.6,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        SpUtil.getString('name') ?? "Nama",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: mainFontColor,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        SpUtil.getString('email') ??
+                                            "\Email Tidak Ada",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  Text(
+                                    getUserRole() ?? "\Belum Verifikasi",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  Text(
+                                    "\087835766946",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  Text(
+                                    "\Skilss Flutter",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  Text(
+                                    "\21 Tahun",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: mainFontColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 400,
+                                    height: 1,
+                                    color: black.withOpacity(0.3),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
-                        ),
-                      )
-                    ],
-                  ),
-
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'edit_profile');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'Edit',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Icon(
-                          // Icons.edit_square,
-                          Icons.edit_note_sharp,
-                          color: Colors.grey,
-                          size: 35,
                         ),
                       ],
                     ),
                   ),
-
-//                 Container(
-//   decoration: BoxDecoration(
-//     border: Border.all(
-//       color: Colors.black.withOpacity(0.3),
-//       width: 0.5,
-//     ),
-//     borderRadius: BorderRadius.circular(5),
-//   ),
-//   child: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//     children: [
-//       Column(
-//         children: const [
-//           Text(
-//             "\$8900",
-//             style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w600,
-//                 color: mainFontColor),
-//           ),
-//           SizedBox(
-//             height: 5,
-//           ),
-//           Text(
-//             "Income",
-//             style: TextStyle(
-//                 fontSize: 12,
-//                 fontWeight: FontWeight.w100,
-//                 color: black),
-//           ),
-//         ],
-//       ),
-//       Container(
-//         width: 0.5,
-//         height: 40,
-//         color: Colors.black.withOpacity(0.3),
-//       ),
-//       Column(
-//         children: const [
-//           Text(
-//             "\$5500",
-//             style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w600,
-//                 color: mainFontColor),
-//           ),
-//           SizedBox(
-//             height: 5,
-//           ),
-//           Text(
-//             "Expenses",
-//             style: TextStyle(
-//                 fontSize: 12,
-//                 fontWeight: FontWeight.w100,
-//                 color: black),
-//           ),
-//         ],
-//       ),
-//       Container(
-//         width: 0.5,
-//         height: 40,
-//         color: Colors.black.withOpacity(0.3),
-//       ),
-//       Column(
-//         children: const [
-//           Text(
-//             "\$890",
-//             style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w600,
-//                 color: mainFontColor),
-//           ),
-//           SizedBox(
-//             height: 5,
-//           ),
-//           Text(
-//             "Loan",
-//             style: TextStyle(
-//                 fontSize: 12,
-//                 fontWeight: FontWeight.w100,
-//                 color: black),
-//           ),
-//         ],
-//       ),
-//     ],
-//   ),
-// ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {},
+                          ),
+                          Text(
+                            "Edit",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Text("Pemberitahuan",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: mainFontColor,
-                            )),
-                        IconBadge(
-                          icon: const Icon(Icons.notifications_none),
-                          itemCount: 1,
-                          badgeColor: Colors.red,
-                          itemColor: mainFontColor,
-                          hideZero: true,
-                          top: -1,
-                          onTap: () {
-                            // print('test');
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                // Text("Overview",
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 20,
-                //       color: mainFontColor,
-                //     )),
-                const Text("Maret 16, 2023",
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25, right: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Text("Pemberitahuan",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: mainFontColor,
+                              )),
+                          IconBadge(
+                            icon: const Icon(Icons.notifications_none),
+                            itemCount: 1,
+                            badgeColor: Colors.red,
+                            itemColor: mainFontColor,
+                            hideZero: true,
+                            top: -1,
+                            onTap: () {
+                              // print('test');
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Text(
+                    getCurrentDateTime(),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
                       color: mainFontColor,
-                    )),
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  
                 Row(
                   children: [
                     Expanded(
@@ -927,60 +941,73 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(15),
                                   // shape: BoxShape.circle
                                 ),
-                                child: Center(
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.exit_to_app_outlined,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () {
-                                      Alert(
-                                        context: context,
-                                        alertAnimation: fadeAlertAnimation,
-                                        style: AlertStyle(
-                                          isCloseButton: false,
-                                        ),
-                                        // type: AlertType.warning,
-                                        title: "Apakah Anda Akan Keluar",
-                                        buttons: [
-                                          DialogButton(
-                                            child: Text(
-                                              "Batal",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 18),
-                                            ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            color: arrowbgColor,
-                                          ),
-                                          DialogButton(
-                                            child: Text(
-                                              "Keluar",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18),
-                                            ),
-                                            onPressed: () async => {
-                                              SpUtil.clear(),
-                                              await _auth
-                                                  .signOut()
-                                                  .then((value) {
-                                                Navigator.pushReplacementNamed(
-                                                    context, "login_page");
-                                              })
-                                            },
-                                            gradient: LinearGradient(colors: [
-                                              Color.fromRGBO(255, 21, 0, 1),
-                                              Color.fromRGBO(220, 38, 38, 1),
-                                              Color.fromRGBO(237, 39, 21, 1),
-                                            ]),
-                                          )
-                                        ],
-                                      ).show();
-                                    },
-                                  ),
-                                ),
+                                child: IconButton(
+  icon: Icon(
+    Icons.exit_to_app_outlined,
+    color: Colors.white,
+  ),
+  onPressed: () {
+  showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      content: Container(
+        width: MediaQuery.of(context).size.width * 0.7,
+        decoration: BoxDecoration(
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Apakah Anda Akan Keluar",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  child: Text(
+                    "Batal",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    primary: arrowbgColor,
+                    onPrimary: Colors.black,
+                  ),
+                ),
+                ElevatedButton(
+                  child: Text(
+                    "Keluar",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () async {
+                    SpUtil.clear();
+                    await _auth.signOut().then((value) {
+                      Navigator.pushReplacementNamed(context, "login_page");
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(255, 21, 0, 1),
+                    onPrimary: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+);
+
+  },
+),
+
                               ),
                               const SizedBox(
                                 width: 15,
@@ -995,11 +1022,26 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 5,
                 ),
-              ],
+                ],
+              ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
+
+String? getUserRole() {
+  String? roleId = SpUtil.getString('role_id');
+  switch (roleId) {
+    case '1':
+      return 'Admin';
+    case '2':
+      return 'User';
+    case '3':
+      return 'Super Admin';
+    default:
+      return null;
+  }
+} 

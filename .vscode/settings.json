@@ -1,4 +1,5 @@
 {
     "doki.sticker.css": "z-index:0;background-position:100% 97%",
-    "dart.flutterHotReloadOnSave": "all"
+    "dart.flutterHotReloadOnSave": "all",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

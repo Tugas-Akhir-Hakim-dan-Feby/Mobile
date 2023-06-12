@@ -1,4 +1,6 @@
 // import 'package:chat/group_chats/create_group/create_group.dart';
+// ignore_for_file: no_leading_underscores_for_local_identifiers, avoid_print
+
 import 'package:api_mobile/page/group_chats/create_group/create_group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +15,8 @@ class AddMembersInGroup extends StatefulWidget {
 
 class _AddMembersInGroupState extends State<AddMembersInGroup> {
   final TextEditingController _search = TextEditingController();
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> membersList = [];
   bool isLoading = false;
   Map<String, dynamic>? userMap;
@@ -121,7 +123,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Members"),
+        title: const Text("Add Members"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -131,14 +133,14 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
               child: ListView.builder(
                 itemCount: membersList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () => onRemoveMembers(index),
-                    leading: Icon(Icons.account_circle),
+                    leading: const Icon(Icons.account_circle),
                     title: Text(membersList[index]['name']),
                     subtitle: Text(membersList[index]['email']),
-                    trailing: Icon(Icons.close),
+                    trailing: const Icon(Icons.close),
                   );
                 },
               ),
@@ -150,7 +152,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
               height: size.height / 14,
               width: size.width,
               alignment: Alignment.center,
-              child: Container(
+              child: SizedBox(
                 height: size.height / 14,
                 width: size.width / 1.15,
                 child: TextField(
@@ -172,27 +174,27 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                     height: size.height / 12,
                     width: size.height / 12,
                     alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
+                    child: const CircularProgressIndicator(),
                   )
                 : ElevatedButton(
                     onPressed: onSearch,
-                    child: Text("Search"),
+                    child: const Text("Search"),
                   ),
             userMap != null
                 ? ListTile(
                     onTap: onResultTap,
-                    leading: Icon(Icons.account_box),
+                    leading: const Icon(Icons.account_box),
                     title: Text(userMap!['name']),
                     subtitle: Text(userMap!['email']),
-                    trailing: Icon(Icons.add),
+                    trailing: const Icon(Icons.add),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
         ),
       ),
       floatingActionButton: membersList.length >= 2
           ? FloatingActionButton(
-              child: Icon(Icons.forward),
+              child: const Icon(Icons.forward),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => CreateGroup(
@@ -201,7 +203,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                 ),
               ),
             )
-          : SizedBox(),
+          : const SizedBox(),
     );
   }
 }

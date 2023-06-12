@@ -1,5 +1,7 @@
 // import 'package:chat/group_chats/create_group/add_members.dart';
 // import 'package:chat/group_chats/group_chat_room.dart';
+// ignore_for_file: library_private_types_in_public_api, sort_child_properties_last
+
 import 'package:api_mobile/page/group_chats/create_group/add_members.dart';
 import 'package:api_mobile/page/group_chats/group_chat_room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,14 +50,14 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Groups"),
+        title: const Text("Groups"),
       ),
       body: isLoading
           ? Container(
               height: size.height,
               width: size.width,
               alignment: Alignment.center,
-              child: CircularProgressIndicator(),
+              child: const CircularProgressIndicator(),
             )
           : ListView.builder(
               itemCount: groupList.length,
@@ -69,16 +71,16 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
                       ),
                     ),
                   ),
-                  leading: Icon(Icons.group),
+                  leading: const Icon(Icons.group),
                   title: Text(groupList[index]['name']),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.create),
+        child: const Icon(Icons.create),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => AddMembersInGroup(),
+            builder: (_) => const AddMembersInGroup(),
           ),
         ),
         tooltip: "Create Group",
