@@ -1,34 +1,92 @@
 {
   "project_info": {
-    "project_number": "873231799080",
-    "firebase_url": "https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com",
-    "project_id": "asosiasi-pengelasan-indonesia",
-    "storage_bucket": "asosiasi-pengelasan-indonesia.appspot.com"
+    "project_number": "208598769884",
+    "firebase_url": "https://cover-dd84c-default-rtdb.firebaseio.com",
+    "project_id": "cover-dd84c",
+    "storage_bucket": "cover-dd84c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873231799080:android:bf7782be96b5410b61b61d",
+        "mobilesdk_app_id": "1:208598769884:android:5f699d228c828ed8efd419",
         "android_client_info": {
           "package_name": "com.example.api_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "873231799080-vk3d0f55o0d0bnotderc6coc4idsrdp8.apps.googleusercontent.com",
+          "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBI-PYr-5EfGxjLMi5_6pdry4TNzlBMCiY"
+          "current_key": "AIzaSyDmxm2YACxmvzIRy748gtXzE3uENXk3uiM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "873231799080-vk3d0f55o0d0bnotderc6coc4idsrdp8.apps.googleusercontent.com",
+              "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208598769884:android:830476db3620cdaaefd419",
+        "android_client_info": {
+          "package_name": "com.example.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmxm2YACxmvzIRy748gtXzE3uENXk3uiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208598769884:android:84ce2e1ce7296f0defd419",
+        "android_client_info": {
+          "package_name": "com.example.imfea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmxm2YACxmvzIRy748gtXzE3uENXk3uiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208598769884-jhl2kpavvl8lk241dih27ao6hhjm6lev.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

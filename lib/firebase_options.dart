@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -47,30 +44,43 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDW1ByIIdg-qBOqlRL3vukwUxwJumGiJJY',
-    appId: '1:177458783886:web:52dab497f4818d76c00bdf',
-    messagingSenderId: '177458783886',
-    projectId: 'proyek3-d615c',
-    authDomain: 'proyek3-d615c.firebaseapp.com',
-    storageBucket: 'proyek3-d615c.appspot.com',
-    measurementId: 'G-ND0TRVKY91',
+    apiKey: 'AIzaSyBQK4ApEaPtbXwKBp5g8j9xOP47Z9L7ImA',
+    appId: '1:873231799080:web:9e950f3977dc729361b61d',
+    messagingSenderId: '873231799080',
+    projectId: 'asosiasi-pengelasan-indonesia',
+    authDomain: 'asosiasi-pengelasan-indonesia.firebaseapp.com',
+    databaseURL: 'https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com',
+    storageBucket: 'asosiasi-pengelasan-indonesia.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBH99Wzfj2B7LwQF_zVGRuGm3w3DULq0hk',
-    appId: '1:177458783886:android:ca4e2192bb8c3086c00bdf',
-    messagingSenderId: '177458783886',
-    projectId: 'proyek3-d615c',
-    storageBucket: 'proyek3-d615c.appspot.com',
+    apiKey: 'AIzaSyBI-PYr-5EfGxjLMi5_6pdry4TNzlBMCiY',
+    appId: '1:873231799080:android:bf7782be96b5410b61b61d',
+    messagingSenderId: '873231799080',
+    projectId: 'asosiasi-pengelasan-indonesia',
+    databaseURL: 'https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com',
+    storageBucket: 'asosiasi-pengelasan-indonesia.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA8BP9Ex1MJue-vMazAv8KM8TY4TM9K5r8',
-    appId: '1:177458783886:ios:589dc427e56c0848c00bdf',
-    messagingSenderId: '177458783886',
-    projectId: 'proyek3-d615c',
-    storageBucket: 'proyek3-d615c.appspot.com',
-    iosClientId: '177458783886-n123d5lnsto08tn7ke8p3292t8fknijq.apps.googleusercontent.com',
-    iosBundleId: 'com.example.aplikasiMobile',
+    apiKey: 'AIzaSyA6EaAKwWIWsIKxvcfxTv6YIPsKjrz8kwc',
+    appId: '1:873231799080:ios:a8dbd99fbe709a3961b61d',
+    messagingSenderId: '873231799080',
+    projectId: 'asosiasi-pengelasan-indonesia',
+    databaseURL: 'https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com',
+    storageBucket: 'asosiasi-pengelasan-indonesia.appspot.com',
+    iosClientId: '873231799080-hdodmbbj6qfbb2u4gjbc5vk5togfo7u3.apps.googleusercontent.com',
+    iosBundleId: 'com.example.apiMobile',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyA6EaAKwWIWsIKxvcfxTv6YIPsKjrz8kwc',
+    appId: '1:873231799080:ios:a8dbd99fbe709a3961b61d',
+    messagingSenderId: '873231799080',
+    projectId: 'asosiasi-pengelasan-indonesia',
+    databaseURL: 'https://asosiasi-pengelasan-indonesia-default-rtdb.firebaseio.com',
+    storageBucket: 'asosiasi-pengelasan-indonesia.appspot.com',
+    iosClientId: '873231799080-hdodmbbj6qfbb2u4gjbc5vk5togfo7u3.apps.googleusercontent.com',
+    iosBundleId: 'com.example.apiMobile',
   );
 }

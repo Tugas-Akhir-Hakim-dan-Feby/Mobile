@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:api_mobile/components/theme/colors.dart';
+import 'package:api_mobile/page/Screens/search.dart';
+import 'package:api_mobile/payment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:api_mobile/page/Screens/chat_room.dart';
-import 'package:api_mobile/page/group_chats/group_chat_screen.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +18,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  final token = SpUtil.getString('token');
+  final FirebaseMessagingService _firebaseMessagingService =
+      FirebaseMessagingService();
   List<DocumentSnapshot> userList = [];
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();
@@ -29,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance?.addObserver(this);
     setStatus("Online");
     fetchUsers();
+    _firebaseMessagingService.initializeFirebaseMessaging();
   }
 
   void setStatus(String status) async {
@@ -49,6 +55,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   String chatRoomId(String user1, String user2) {
+    if (user1.isEmpty || user2.isEmpty) {
+      throw Exception('User1 or User2 is empty');
+    }
+
     if (user1.toLowerCase().codeUnitAt(0) > user2.toLowerCase().codeUnitAt(0)) {
       return "$user1$user2";
     } else {
@@ -183,8 +193,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(
+      //     '    Pesan',
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontSize: 23,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      //   backgroundColor: Color.fromARGB(255, 255, 0, 0),
+      // ),
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        backgroundColor: maincolor,
+        title: Text(
+          '    Pesan',
+          style: TextStyle(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            fontSize: 22,
+            // fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: isLoading
           ? Center(
@@ -234,13 +263,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: size.height / 50,
-                ),
-                ElevatedButton(
-                  onPressed: performSearch,
-                  child: const Text("Search"),
-                ),
+                // SizedBox(
+                //   height: size.height / 50,
+                // ),
+                // ElevatedButton(
+                //   onPressed: performSearch,
+                //   child: const Text("Search"),
+                // ),
                 SizedBox(
                   height: size.height / 30,
                 ),
@@ -326,10 +355,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ],
             ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.group),
+        backgroundColor: maincolor,
+        child: const Icon(
+          Icons.question_answer, color: Color.fromARGB(255, 255, 255, 255)
+        ),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => const GroupChatHomeScreen(),
+            builder: (_) => const Search(),
           ),
         ),
       ),

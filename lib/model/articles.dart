@@ -1,21 +1,21 @@
 class Article {
-  String status;
-  String message;
-  int statusCode;
-  List<Data> data;
-  Links links;
-  Meta meta;
+  String? status;
+  String? message;
+  int? statusCode;
+  List<Data>? data;
+  Links? links;
+  Meta? meta;
 
   Article({
-    required this.status,
-    required this.message,
-    required this.statusCode,
-    required this.data,
-    required this.links,
-    required this.meta,
+    this.status,
+    this.message,
+    this.statusCode,
+    this.data,
+    this.links,
+    this.meta,
   });
 
-  factory Article.fromJson(Map<String, dynamic> json) {
+  factory Article.fromJson(Map<String?, dynamic> json) {
     return Article(
       status: json['status'],
       message: json['message'],
@@ -28,29 +28,29 @@ class Article {
 }
 
 class Data {
-  String uuid;
-  String articleTitle;
-  String articleContent;
-  String articleSlug;
-  String articleExcerpt;
-  Document document;
-  User user;
-  String createdAt;
-  String updatedAt;
+  String? uuid;
+  String? articleTitle;
+  String? articleContent;
+  String? articleSlug;
+  String? articleExcerpt;
+  Document? document;
+  User? user;
+  String? createdAt;
+  String? updatedAt;
 
   Data({
-    required this.uuid,
-    required this.articleTitle,
-    required this.articleContent,
-    required this.articleSlug,
-    required this.articleExcerpt,
-    required this.document,
-    required this.user,
-    required this.createdAt,
-    required this.updatedAt,
+    this.uuid,
+    this.articleTitle,
+    this.articleContent,
+    this.articleSlug,
+    this.articleExcerpt,
+    this.document,
+    this.user,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
+  factory Data.fromJson(Map<String?, dynamic> json) {
     return Data(
       uuid: json['uuid'],
       articleTitle: json['article_title'],
@@ -66,19 +66,19 @@ class Data {
 }
 
 class Document {
-  String documentPath;
-  String documentName;
-  String createdAt;
-  String updatedAt;
+  String? documentPath;
+  String? documentName;
+  String? createdAt;
+  String? updatedAt;
 
   Document({
-    required this.documentPath,
-    required this.documentName,
-    required this.createdAt,
-    required this.updatedAt,
+    this.documentPath,
+    this.documentName,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory Document.fromJson(Map<String, dynamic> json) {
+  factory Document.fromJson(Map<String?, dynamic> json) {
     return Document(
       documentPath: json['document_path'],
       documentName: json['document_name'],
@@ -89,23 +89,23 @@ class Document {
 }
 
 class User {
-  String uuid;
-  String name;
-  String email;
-  int roleId;
-  String createdAt;
-  String updatedAt;
+  String? uuid;
+  String? name;
+  String? email;
+  int? roleId;
+  String? createdAt;
+  String? updatedAt;
 
   User({
-    required this.uuid,
-    required this.name,
-    required this.email,
-    required this.roleId,
-    required this.createdAt,
-    required this.updatedAt,
+    this.uuid,
+    this.name,
+    this.email,
+    this.roleId,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String?, dynamic> json) {
     return User(
       uuid: json['uuid'],
       name: json['name'],
@@ -118,19 +118,19 @@ class User {
 }
 
 class Links {
-  String first;
-  String last;
+  String? first;
+  String? last;
   dynamic prev;
   dynamic next;
 
   Links({
-    required this.first,
-    required this.last,
-    required this.prev,
-    required this.next,
+    this.first,
+    this.last,
+    this.prev,
+    this.next,
   });
 
-  factory Links.fromJson(Map<String, dynamic> json) {
+  factory Links.fromJson(Map<String?, dynamic> json) {
     return Links(
       first: json['first'],
       last: json['last'],
@@ -141,27 +141,27 @@ class Links {
 }
 
 class Meta {
-  int currentPage;
-  int from;
-  int lastPage;
-  List<Link> links;
-  String path;
-  int perPage;
-  int to;
-  int total;
+  int? currentPage;
+  int? from;
+  int? lastPage;
+  List<Link>? links;
+  String? path;
+  int? perPage;
+  int? to;
+  int? total;
 
   Meta({
-    required this.currentPage,
-    required this.from,
-    required this.lastPage,
-    required this.links,
-    required this.path,
-    required this.perPage,
-    required this.to,
-    required this.total,
+    this.currentPage,
+    this.from,
+    this.lastPage,
+    this.links,
+    this.path,
+    this.perPage,
+    this.to,
+    this.total,
   });
 
-  factory Meta.fromJson(Map<String, dynamic> json) {
+  factory Meta.fromJson(Map<String?, dynamic> json) {
     return Meta(
       currentPage: json['current_page'],
       from: json['from'],
@@ -177,16 +177,16 @@ class Meta {
 
 class Link {
   dynamic url;
-  String label;
-  bool active;
+  String? label;
+  bool? active;
 
   Link({
-    required this.url,
-    required this.label,
-    required this.active,
+    this.url,
+    this.label,
+    this.active,
   });
 
-  factory Link.fromJson(Map<String, dynamic> json) {
+  factory Link.fromJson(Map<String?, dynamic> json) {
     return Link(
       url: json['url'],
       label: json['label'],

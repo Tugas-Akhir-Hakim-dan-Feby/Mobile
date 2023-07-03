@@ -1,0 +1,327 @@
+import 'dart:convert';
+
+import 'package:api_mobile/model/payment.dart';
+import 'package:api_mobile/page/profile/member/payment_history/detail_payment.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sp_util/sp_util.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+
+class HistoryPayment extends StatefulWidget {
+  const HistoryPayment({Key? key}) : super(key: key);
+
+  @override
+  _HistoryPaymentState createState() => _HistoryPaymentState();
+}
+
+class _HistoryPaymentState extends State<HistoryPayment> {
+  late Stream<Payment> _paymentHistoryStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _paymentHistoryStream = fetchPaymentHistory();
+  }
+
+  Stream<Payment> fetchPaymentHistory() async* {
+    final token = SpUtil.getString('token');
+    while (true) {
+      await Future.delayed(Duration(seconds: 5)); // Delay for 5 seconds
+      try {
+        final response = await http.get(
+          Uri.parse('https://develop-ta.berobatplus.shop/api/v1/payment'),
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        );
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          yield Payment.fromJson(json.decode(response.body));
+        } else {
+          throw Exception(
+              'Failed to load history of payment. Status code: ${response.statusCode}');
+        }
+      } catch (error) {
+        throw Exception('Failed to load history payment: $error');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      body: StreamBuilder<Payment>(
+        stream: _paymentHistoryStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final payment = snapshot.data!;
+
+            double totalAmount = 0.0;
+            for (var paymentData in payment.data) {
+              if (paymentData.status == 'PENDING') {
+                double amount = double.parse(paymentData.amount!);
+                totalAmount += amount;
+              }
+            }
+
+            NumberFormat numberFormat = NumberFormat("#,##0", "en_US");
+            String formattedAmount = numberFormat.format(totalAmount);
+
+            return Container(
+              padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+              height: h,
+              width: w,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                      'assets/images/payment/detailpaymentbackground.png'),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    height: h * 0.12,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                      image: const AssetImage(
+                          'assets/images/payment/historpayment.png'),
+                    )),
+                  ),
+                  const Text(
+                    "Riwayat Pembayaran",
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF192c49)),
+                  ),
+                  SizedBox(
+                    height: h * 0.018,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: const Text(
+                      "Tagihan Pembayaran yang Anda Miliki Sebagai Berikut!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF9ca2ac),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: h * 0.035,
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: 310,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            width: 2, color: Colors.grey.withOpacity(0.5)),
+                      ),
+                      child: MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: ListView.builder(
+                          itemCount: payment.data.length,
+                          itemBuilder: (_, index) {
+                            final data = payment.data[index];
+                            return GestureDetector(
+                              onTap: () {
+                                navigateToDetailPage(data);
+                              },
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Row(
+  children: [
+    Container(
+      margin: const EdgeInsets.only(
+        top: 15,
+        left: 20,
+        bottom: 10,
+      ),
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: _getStatusColor(data.status ?? ''),
+      ),
+      child: _getStatusIcon(data.status!),
+    ),
+    const SizedBox(
+      width: 10,
+    ),
+    Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            " ${data.description}",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF192c49),
+            ),
+          ),
+          SizedBox(
+            height: 2,
+          ),
+          Text(
+            " ID : ${data.externalId}",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF9ca2ac),
+            ),
+          ),
+          Text(
+            " Rp. ${data.amount}",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF192c49),
+            ),
+          ),
+          Text(
+            " ${data.status ?? ''}",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF192c49),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ],
+),
+
+                                    Divider(
+                                      thickness: 2,
+                                      color: Colors.grey.withOpacity(0.5),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: h * 0.05,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Total Tagihan: Rp. $formattedAmount',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                              .withOpacity(0.5),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: h * 0.04,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                              Get.offNamedUntil('/member_profile_page', (route) => false);
+                    },
+                    child: Text(
+                      "Kembali",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(
+                    height: h * 0.06,
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+    void navigateToDetailPage(Data data) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentDetailPage(data: data),
+      ),
+    );
+  }
+}
+
+
+Icon _getStatusIcon(String status) {
+  if (status == 'PAID') {
+    return Icon(
+      Icons.done,
+      size: 30,
+      color: Colors.white,
+    );
+  } else if (status == 'PENDING') {
+    return Icon(
+      Icons.warning,
+      size: 30,
+      color: const Color.fromARGB(255, 255, 255, 255),
+    );
+  } else if (status == 'FAILURE') {
+    return Icon(
+      Icons.close,
+      size: 30,
+      color: const Color.fromARGB(255, 255, 255, 255),
+    );
+  } else {
+    return Icon(
+      Icons.attach_money,
+      size: 30,
+      color: const Color.fromARGB(255, 255, 255, 255),
+    );
+  }
+}
+
+Color _getStatusColor(String status) {
+  if (status == 'PAID') {
+    return Colors.green;
+  }
+  if (status == 'SETTLED') {
+    return Colors.green;
+  } 
+  else if (status == 'UNPAID') {
+    return Colors.orange;
+  }
+  else if (status == 'PENDING') {
+    return Colors.orange;
+  } else if (status == 'FAILURE') {
+    return Colors.red;
+  }else if (status == 'EXPIRED') {
+    return Colors.red;
+  }
+  else {
+    return Colors.blue;
+  }
+}

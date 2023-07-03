@@ -1,31 +1,28 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+// import 'package:flutter/material.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_options.dart';
 
-class Article {
-  final String title;
-  final String content;
-  final String image;
+// class CarouselSliderExample extends StatefulWidget {
+//   @override
+//   _CarouselSliderExampleState createState() => _CarouselSliderExampleState();
+// }
 
-  Article({required this.title, required this.content, required this.image});
-}
+// class _CarouselSliderExampleState extends State<CarouselSliderExample> {
+//   int _currentIndex = 0;
 
-Future<List<Article>> fetchArticles() async {
-  final response = await http.get(
-    Uri.parse('https://develop-ta.berobatplus.shop/api/v1/article'),
-  );
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//   }
+// }
 
-  if (response.statusCode == 200) {
-    final jsonResult = json.decode(response.body);
-    final articles = jsonResult['data'] as List<dynamic>;
-
-    return articles.map((jsonArticle) {
-      return Article(
-        title: jsonArticle['article_title'],
-        content: jsonArticle['article_content'],
-        image: jsonArticle['document']['document_path'],
-      );
-    }).toList();
-  } else {
-    throw Exception('Failed to fetch articles');
-  }
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: Scaffold(
+//       appBar: AppBar(
+//         title: Text('Carousel Slider Example'),
+//       ),
+//       body: CarouselSliderExample(),
+//     ),
+//   ));
+// }

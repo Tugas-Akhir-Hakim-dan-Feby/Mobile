@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+
+class Certificate extends StatefulWidget {
+  const Certificate({Key? key}) : super(key: key);
+
+  @override
+  State<Certificate> createState() => _CertificateState();
+}
+
+class _CertificateState extends State<Certificate> {
+  final List<String> documentPaths = [
+    "https://cdn0-production-images-kly.akamaized.net/2jvPShVjmCIPRUn2TA-fPvunTnM=/800x800/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4042006/original/060848500_1654274428-Manchester_United_-_Ilustrasi_Logo_Manchester_United_copy.jpg",
+    "https://cdn0-production-images-kly.akamaized.net/2jvPShVjmCIPRUn2TA-fPvunTnM=/800x800/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4042006/original/060848500_1654274428-Manchester_United_-_Ilustrasi_Logo_Manchester_United_copy.jpg",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+        title: const Text('Halaman Sertifikat'),
+      ),
+      body: Container(
+        color: Colors.white, // Ubah warna latar belakang di sini
+        child: Center(
+          child: ListWheelScrollView(
+            itemExtent: 300,
+            children: documentPaths.map((documentPath) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImage(
+                        imageUrl: documentPath,
+                      ),
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  height: 200, // Ubah ukuran gambar di sini
+                  child: Hero(
+                    tag: documentPath,
+                    child: Image.network(
+                      documentPath,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FullScreenImage extends StatelessWidget {
+  final String imageUrl;
+
+  const FullScreenImage({Key? key, required this.imageUrl}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Center(
+          child: Hero(
+            tag: imageUrl,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

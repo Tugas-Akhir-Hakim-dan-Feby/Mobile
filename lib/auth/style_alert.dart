@@ -23,8 +23,8 @@ Widget fadeAlertAnimation(
 
     var alertStyle = AlertStyle(
       animationType: AnimationType.grow,
-      isCloseButton: false,
-      isOverlayTapDismiss: false,
+      // isCloseButton: true,
+      // isOverlayTapDismiss: false,
       descStyle: const TextStyle(fontWeight: FontWeight.bold),
       descTextAlign: TextAlign.start,
       animationDuration: Duration(milliseconds: 200),

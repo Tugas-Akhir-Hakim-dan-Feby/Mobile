@@ -77,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(builder: (context) => LoginPage()),
                         // );
-                        Navigator.pushNamed(context, 'login_page');
+                        Navigator.pushNamed(context, '/login_page');
                       } else {
                         _controller.nextPage(
                             duration: const Duration(milliseconds: 300),
@@ -99,7 +99,7 @@ class _WelcomePageState extends State<WelcomePage> {
             right: 40,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, 'login_page');
+                Navigator.pushNamed(context, '/login_page');
               },
               child: Container(
                 width: 75,
@@ -112,7 +112,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   // ignore: deprecated_member_use
                   child: ColorizeAnimatedTextKit(
                     onTap: () {
-                      Navigator.pushNamed(context, 'login_page');
+                      Navigator.pushNamed(context, '/login_page');
                     },
                     text: const ['Lewati'],
                     textStyle: const TextStyle(

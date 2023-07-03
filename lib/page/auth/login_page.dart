@@ -53,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
   //           DialogButton(
   //             child: const Text("Ok"),
   //             onPressed: () {
-  //               // Navigator.pushReplacementNamed(context, 'navigasi_page');
-  //               Navigator.pushNamed(context, 'navigasi_page');
+  //               // Navigator.pushReplacementNamed(context, '/navigasi_page');
+  //               Navigator.pushNamed(context, '/navigasi_page');
   //             },
   //           )
   //         ]).show();
@@ -63,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
   //         .show();
   //   }
   // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 style: TextStyle(
                                   fontSize: 18.0,
-                                  color: const Color.fromARGB(255, 0, 0, 0)
+                                  color: Color.fromARGB(255, 0, 0, 0)
                                       .withOpacity(0.4),
                                 ),
                               ),
@@ -181,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                                       _isVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: const Color.fromARGB(255, 158, 158, 158),
+                                      color:
+                                          _isVisible ? Colors.red : Colors.grey,
                                     ),
                                   ),
                                   border: OutlineInputBorder(
@@ -195,7 +195,8 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'reset_password_page');
+                                  Navigator.pushNamed(
+                                      context, '/reset_password_page');
                                 },
                                 child: const Text(
                                   'Lupa Kata Sandi',
@@ -243,6 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -268,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushNamed(
-                                          context, 'register_page');
+                                          context, '/register_page');
                                     }),
                             ],
                           ))

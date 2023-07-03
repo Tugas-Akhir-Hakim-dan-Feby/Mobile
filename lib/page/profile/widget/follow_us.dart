@@ -1,3 +1,4 @@
+import 'package:api_mobile/components/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -53,7 +54,7 @@ void _launchYouTube() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+        backgroundColor: maincolor,
         title: const Text('Halaman Ikuti Kami'),
       ),
       body: Center(

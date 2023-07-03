@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+import 'package:api_mobile/model/articles.dart';
+import 'package:api_mobile/page/dashboard/articles/articles.dart';
+import 'package:api_mobile/page/dashboard/articles/details_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:api_mobile/page/dashboard/details/details_screen.dart';
-import 'package:api_mobile/page/dashboard/widgets/article.dart';
-import 'package:api_mobile/page/dashboard/widgets/item_category.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:sp_util/sp_util.dart';
+
+import 'package:http/http.dart' as http;
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -21,8 +28,24 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DASHBOARD'),
+        title: Text(
+          'DASHBOARD',
+          style: TextStyle(
+              color: Colors.white), // Mengubah warna teks menjadi putih
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 0,
+            0), // Mengubah warna latar belakang menggunakan RGB (255, 0, 0)
       ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     'DASHBOARD',
+      //      style: TextStyle(
+      //       color: Color.fromRGBO(255, 255, 255, 1),
+      //       fontSize: 21,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),// Mengubah warna latar belakang menggunakan RGB (255, 0, 0)
+      // ),
       body: DashboardScreen(
         onSearchChanged: (query) {
           setState(() {
@@ -44,131 +67,218 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+  Future<String> _fetchProfile() async {
+    final token = SpUtil.getString('token');
+
+    if (token == null) {
+      throw Exception('Token tidak ditemukan');
+    }
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    final response = await http.get(
+      Uri.parse('https://develop-ta.berobatplus.shop/api/v1/user/me'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final document = jsonResponse['document'];
+      final documentPath = document['document_path'];
+      SpUtil.putString("save_image", document['document_path']);
+      // print(documentPath);
+      return documentPath;
+    } else {
+      throw Exception('Gagal memuat data Foto');
+    }
+  }
+
+  String searchQuery = '';
   @override
   Widget build(BuildContext context) {
+    String? documentPath = SpUtil.getString("save_image");
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
           Container(
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                const CircleAvatar(
-                  radius: 28,
-                  backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'),
-                ),
+                if (SpUtil.getString("save_image") != null)
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: CachedNetworkImageProvider(
+                      SpUtil.getString("save_image") ?? '',
+                    ),
+                  )
+                else
+                  FutureBuilder<String>(
+                    future: _fetchProfile(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundColor: Colors.white,
+                            child: Container(),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        return CircleAvatar(
+                          radius: 35,
+                          backgroundImage:
+                              CachedNetworkImageProvider(snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return CircleAvatar(
+                          radius: 35,
+                          child: Image.asset('assets/user.png'),
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: 35,
+                          child: Image.asset('assets/user.png'),
+                        );
+                      }
+                    },
+                  ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   'Hello Good Morning',
-                    //   style: GoogleFonts.poppins(
-                    //       fontSize: 14, fontWeight: FontWeight.w400),
-                    // ),
                     Text(
-                      'Montree MT',
+                      SpUtil.getString('name') ?? "Nama",
                       style: GoogleFonts.poppins(
                           fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
-                const Spacer(),
-                MaterialButton(
-                  onPressed: () {},
-                  padding: const EdgeInsets.all(14),
-                  child: Icon(Iconsax.notification),
-                  shape: const CircleBorder(
-                      side: BorderSide(color: Colors.black12)),
-                )
               ],
             ),
           ),
-          // Search
           Container(
-            margin: const EdgeInsets.only(top: 15),
+            margin: const EdgeInsets.only(top: 0, bottom: 20),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, 5),
-                      color: Theme.of(context).primaryColor.withOpacity(.2),
-                      spreadRadius: 1,
-                      blurRadius: 5)
-                ]),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 5),
+                  color: Theme.of(context).primaryColor.withOpacity(.2),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
             child: Row(
-              children: const [
+              children: [
                 SizedBox(width: 15),
                 Icon(CupertinoIcons.search, color: Colors.grey),
                 Expanded(
                   child: TextField(
+                    onChanged: (query) {
+                      setState(() {
+                        searchQuery = query;
+                      });
+                      widget.onSearchChanged(query);
+                    },
                     decoration: InputDecoration(
-                        hintText: 'Search',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5)),
+                      hintText: 'Search',
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            height: 200.0,
+            height: 190.0,
             margin: EdgeInsets.symmetric(horizontal: 8.0),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.8, // Menggunakan 80% lebar layar
-                  margin: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.grey,
+            child: Column(
+              children: [
+                CarouselSlider.builder(
+                  itemCount: imageList.length,
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.grey,
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Image.network(
+                          imageList[index],
+                        ),
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 180.0,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 0.8,
+                    enlargeCenterPage: true,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
                   ),
-                  child: Center(
-                    child: Text(
-                      'Post $index',
-                      style: TextStyle(fontSize: 16.0),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    imageList.length,
+                    (index) => Container(
+                      width: 10.0,
+                      height: 10.0,
+                      margin: EdgeInsets.symmetric(horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _current == index ? Colors.blue : Colors.grey,
+                      ),
                     ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
           Container(
-            height: 30,
-            margin: const EdgeInsets.only(top: 20),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              // children: const [
-              //   ItemCategory(title: 'Experiences',),
-              // ],
+            padding: const EdgeInsets.only(left: 16, top: 10, bottom: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Artikel',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(138, 127, 127, 1),
+                  ),
+                ),
+              ],
             ),
           ),
-          Articles(),
-          // GridView.count(
-          //   padding: const EdgeInsets.only(top: 20),
-          //   crossAxisCount: 2,
-          //   shrinkWrap: true,
-          //   childAspectRatio: 2 / 3,
-          //   crossAxisSpacing: 10,
-          //   mainAxisSpacing: 15,
-          //   physics: const NeverScrollableScrollPhysics(),
-          //   children: const [
-          //     Articles(article_title: '', document_path: ''),
-          //     Articles(article_title: '', document_path: ''),
-          //     Articles(article_title: '', document_path: ''),
-          //     Articles(article_title: '', document_path: ''),
-          //   ],
-          // ),
+          Articles(searchQuery),
         ],
       ),
     );
   }
 }
+List<String> imageList = [
+  'https://upload.wikimedia.org/wikipedia/commons/6/6e/Erling_Haaland_2023_%28cropped-v2%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/6/6e/Erling_Haaland_2023_%28cropped-v2%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/6/6e/Erling_Haaland_2023_%28cropped-v2%29.jpg',
+  // tambahkan URL gambar lainnya di sini
+];

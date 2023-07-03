@@ -287,17 +287,17 @@ class _IndividualMemberRequirementsState
                               ),
                               child: Row(
                                 children: [
-                                  Container(
-                                    width: 45,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(Icons.add_moderator),
-                                      // child: Icon(Icons.admin_panel_settings_sharp)
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   width: 45,
+                                  //   height: 50,
+                                  //   decoration: BoxDecoration(
+                                  //     borderRadius: BorderRadius.circular(15),
+                                  //   ),
+                                  //   child: const Center(
+                                  //     child: Icon(Icons.add_moderator),
+                                  //     // child: Icon(Icons.admin_panel_settings_sharp)
+                                  //   ),
+                                  // ),
                                   Expanded(
                                     child: Container(
                                       width: (size.width - 50) * 0.7,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:api_mobile/auth/style_alert.dart';
+import 'package:api_mobile/components/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
@@ -102,7 +103,7 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
             DialogButton(
               color: const Color.fromARGB(255, 68, 233, 74),
               child: const Text(
-                "Masuk",
+                "Kembali",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -146,7 +147,7 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Update Password'),
+        title: const Text('Ubah Password'),
         backgroundColor: const Color.fromARGB(255, 244, 17, 17),
       ),
       body: Column(
@@ -394,7 +395,7 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffff80849),
+                        backgroundColor: maincolor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -404,6 +405,7 @@ class _ProfileEditPasswordPageState extends State<ProfileEditPasswordPage> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
+                          color: Colors.white
                         ),
                       ),
                     ),

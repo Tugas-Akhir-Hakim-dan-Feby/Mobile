@@ -1,6 +1,4 @@
 // ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, duplicate_ignore, use_build_context_synchronously
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:api_mobile/auth/style_alert.dart';
 import 'package:api_mobile/components/constants.dart';
 import 'package:api_mobile/connection/app_config.dart';
@@ -8,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:get/get.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:http/http.dart' as http;
@@ -45,125 +44,128 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: no_leading_underscores_for_local_identifiers
-    Future _doRegister() async {
-      String name = txtUsername.text;
-      String email = txtEmail.text;
-      String password = txtPassword.text;
-      // ignore: unused_local_variable
-              if (name.isEmpty || email.isEmpty) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Data tidak boleh kosong"),
-                    actions: [
-                      TextButton(
-                        child: const Text("OK"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            return;
-        }
+  Future _doRegister() async {
+  String name = txtUsername.text;
+  String email = txtEmail.text;
+  String password = txtPassword.text;
 
-      ProgressDialog progressDialog = ProgressDialog(context: context);
-      progressDialog.show(
-        msg: "Memuat......",
-        progressBgColor: const Color.fromARGB(0, 174, 155, 155),
-        max: 100,
-        barrierDismissible: true,
-        hideValue: true,
-        completed: Completed(),
-      );
-      final response = await http
-          .post(Uri.parse('${AppConfig.getUrl()}auth/register'), body: {
-        // final response = await http.post(Uri.parse("https://develop-ta.berobatplus.shop/api/v1/auth/register"), body: {
-        'name': name,
-        'email': email,
-        'password': password,
-        'retype_password': password,
-      }, headers: {
-        'Accept': 'application/json'
-      });
-
-      progressDialog.close();
-      print(response.body);
-      if (response.statusCode == 201) {
-        final FirebaseAuth _auth = FirebaseAuth.instance;
-        final UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
+  if (name.isEmpty || email.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Data tidak boleh kosong"),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
+      },
+    );
+    return;
+  }
 
-        if (userCredential.user != null) {
-// create user data in firebase
-          final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-          final CollectionReference usersRef = _firestore.collection('users');
-          final userId = userCredential.user!.uid;
-          final userData = {
-            'email': email,
-            'name': name,
-            // "uid": _auth.currentUser!.uid,
-            'createdAt': DateTime.now(),
-          };
-          await usersRef.doc(userId).set(userData);
+  ProgressDialog progressDialog = ProgressDialog(context: context);
+  progressDialog.show(
+    msg: "Memuat......",
+    progressBgColor: const Color.fromARGB(0, 174, 155, 155),
+    max: 100,
+    barrierDismissible: true,
+    hideValue: true,
+    completed: Completed(),
+  );
 
-          // Update display name
-          await userCredential.user!.updateDisplayName(name);
+  final response = await http.post(
+    Uri.parse('${AppConfig.getUrl()}auth/register'),
+    body: {
+      'name': name,
+      'email': email,
+      'password': password,
+      'retype_password': password,
+    },
+    headers: {
+      'Accept': 'application/json',
+    },
+  );
 
-          // Show alert message
-          Alert(
-              context: context,
-              title: "Cek Email Anda",
-              desc: "Cek Pesan Email Anda untuk Verifikasi",
-              alertAnimation: fadeAlertAnimation,
-              image: Image.asset("assets/images/email.png"),
-              buttons: [
-                DialogButton(
-                  child: const Text("OK"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                )
-              ]).show();
-        } else if (response.statusCode == 422) {
-          print(response.statusCode);
-          // ignore: use_build_context_synchronously
-          Alert(
-              context: context,
-              title: "Email Sudah Terdaftar",
-              type: AlertType.warning,
-              buttons: [
-                DialogButton(
-                  child: const Text(
-                    "Ganti Email",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                )
-              ]).show();
-        } else {
-          // ignore: use_build_context_synchronously
-          Alert(
-                  context: context,
-                  title: "Data Gagal disimpan",
-                  type: AlertType.error)
-              .show();
-        }
-// ignore: empty_statements
-      }
-      ;
+  progressDialog.close();
+  print(response.body);
+
+  if (response.statusCode == 201) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    if (userCredential.user != null) {
+      final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+      final CollectionReference usersRef = _firestore.collection('users');
+      final userId = userCredential.user!.uid;
+      final userData = {
+        'email': email,
+        'name': name,
+        'createdAt': DateTime.now(),
+      };
+      await usersRef.doc(userId).set(userData);
+
+      await userCredential.user!.updateDisplayName(name);
+
+      Alert(
+        context: context,
+        title: "Cek Email Anda",
+        desc: "Cek Pesan Email Anda untuk Verifikasi",
+        alertAnimation: fadeAlertAnimation,
+        image: Image.asset("assets/images/email.png"),
+        buttons: [
+          DialogButton(
+            child: const Text("OK"),
+            onPressed: () {
+              Get.offAndToNamed('/login_page');
+            },
+          ),
+        ],
+      ).show().then((value) {
+              Get.offAndToNamed('/login_page');
+      });
+    } else {
+      Alert(
+        context: context,
+        title: "Data Gagal disimpan",
+        type: AlertType.error,
+      ).show();
     }
+  } else if (response.statusCode == 422) {
+    print(response.statusCode);
+    Alert(
+      context: context,
+      title: "Email Sudah Terdaftar",
+      type: AlertType.warning,
+      buttons: [
+        DialogButton(
+          child: const Text(
+            "Ganti Email",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    ).show();
+  } else {
+    Alert(
+      context: context,
+      title: "Data Gagal disimpan",
+      type: AlertType.error,
+    ).show();
+  }
+}
 
     final deviceHeight = MediaQuery.of(context).size.height;
     // final deviceWidth = MediaQuery.of(context).size.width;
@@ -324,7 +326,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         icon: _isVisible
                                             ? const Icon(
                                                 Icons.visibility,
-                                                color: Colors.black,
+                                                color: Colors.red,
                                               )
                                             : const Icon(
                                                 Icons.visibility_off,
@@ -449,7 +451,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pushReplacementNamed(
-                                        context, 'reset_password_page');
+                                        context, '/reset_password_page');
                                   },
                                   child: const Text(
                                     'Lupa Kata Sandi',
@@ -486,6 +488,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -510,7 +513,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    Navigator.pushNamed(context, 'login_page');
+                                    Navigator.pushNamed(context, '/login_page');
                                   },
                               ),
                             ],

@@ -72,12 +72,12 @@ class _NavigasiPageState extends State<NavigasiPage> {
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
-              activeColor: Colors.black,
+              activeColor: Color.fromARGB(255, 255, 255, 255),
               iconSize: 27,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: Colors.black,
+              tabBackgroundColor: Color.fromARGB(255, 235, 50, 50)!,
+              color: const Color.fromARGB(255, 0, 0, 0),
               // textSize: 100,
               tabs: const [
                 GButton(
